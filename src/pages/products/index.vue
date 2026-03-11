@@ -50,26 +50,14 @@
     </v-row>
 
     <v-row v-if="displayProducts.length > 0">
-      <v-col
-        v-for="product in displayProducts"
-        :key="product._id"
-        cols="12"
-        lg="4"
-        md="4"
-        sm="6"
-      >
+      <v-col v-for="product in displayProducts" :key="product._id" cols="12" lg="4" md="4" sm="6">
         <v-card
           class="product-card h-100 d-flex flex-column"
           elevation="0"
           @click="$router.push(`/products/${product._id}`)"
         >
           <div class="product-img-container bg-grey-lighten-4 overflow-hidden position-relative">
-            <v-img
-              class="product-img"
-              contain
-              height="280px"
-              :src="getImageUrl(product.image)"
-            >
+            <v-img class="product-img" contain height="280px" :src="getImageUrl(product.image)">
               <v-chip
                 class="ma-3 font-weight-bold"
                 :color="getCategoryColor(product.category)"
@@ -219,8 +207,7 @@
   // 依照分類和搜尋條件過濾商品
   const filteredProducts = computed(() => {
     return products.value.filter(p => {
-      const matchCategory
-        = selectedCategory.value === '全部' || p.category === selectedCategory.value
+      const matchCategory = selectedCategory.value === '全部' || p.category === selectedCategory.value
       const matchSearch = p.name.toLowerCase().includes(searchQuery.value.toLowerCase())
       return matchCategory && matchSearch
     })
@@ -237,7 +224,7 @@
   const getImageUrl = image => {
     if (!image) return 'https://via.placeholder.com/300'
     if (image.startsWith('http')) return image
-    return `http://localhost:5000/${image}`
+    return `${import.meta.env.VITE_API_BASE}/${image}`
   }
 
   const addToCart = async product => {
@@ -270,67 +257,67 @@
 </script>
 
 <style scoped>
-.font-serif {
-  font-family: 'Noto Serif TC', serif !important;
-  color: #2d3e33;
-}
+  .font-serif {
+    font-family: 'Noto Serif TC', serif !important;
+    color: #2d3e33;
+  }
 
-.color-tea-green {
-  color: #2d3e33;
-}
+  .color-tea-green {
+    color: #2d3e33;
+  }
 
-.price-text {
-  color: #8d6e63;
-}
+  .price-text {
+    color: #8d6e63;
+  }
 
-/* 商品卡片基礎 */
-.product-card {
-  border: 1px solid #eee !important;
-  border-radius: 16px !important;
-  transition: all 0.4s ease;
-  background-color: #fff;
-  cursor: pointer;
-}
+  /* 商品卡片基礎 */
+  .product-card {
+    border: 1px solid #eee !important;
+    border-radius: 16px !important;
+    transition: all 0.4s ease;
+    background-color: #fff;
+    cursor: pointer;
+  }
 
-.product-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06) !important;
-  border-color: #8d6e63 !important;
-}
+  .product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06) !important;
+    border-color: #8d6e63 !important;
+  }
 
-/* 圖片容器優化 */
-.product-img-container {
-  border-radius: 16px 16px 0 0; /* 僅上方圓角 */
-}
+  /* 圖片容器優化 */
+  .product-img-container {
+    border-radius: 16px 16px 0 0; /* 僅上方圓角 */
+  }
 
-.product-img {
-  transition: transform 0.6s ease;
-  /* padding 確保圖片文字不被邊框切到 */
-  padding: 8px;
-}
+  .product-img {
+    transition: transform 0.6s ease;
+    /* padding 確保圖片文字不被邊框切到 */
+    padding: 8px;
+  }
 
-/* 即使是 contain 模式，hover 仍保有縮放動效 */
-.product-card:hover .product-img {
-  transform: scale(1.05);
-}
+  /* 即使是 contain 模式，hover 仍保有縮放動效 */
+  .product-card:hover .product-img {
+    transform: scale(1.05);
+  }
 
-.sold-out-tag {
-  border: 2px solid white;
-  padding: 8px 16px;
-  font-weight: 900;
-  letter-spacing: 2px;
-  color: white;
-}
+  .sold-out-tag {
+    border: 2px solid white;
+    padding: 8px 16px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: white;
+  }
 
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 
-.category-tabs :deep(.v-tab) {
-  text-transform: none;
-  letter-spacing: 0;
-}
+  .category-tabs :deep(.v-tab) {
+    text-transform: none;
+    letter-spacing: 0;
+  }
 </style>
