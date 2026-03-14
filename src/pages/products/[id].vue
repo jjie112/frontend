@@ -1,7 +1,7 @@
 <template>
-  <v-container class="py-16">
+  <v-container class="py-8 py-md-16">
     <v-btn
-      class="mb-8"
+      class="mb-6 mb-md-8 px-0"
       color="brown-darken-1"
       prepend-icon="mdi-chevron-left"
       variant="text"
@@ -10,10 +10,15 @@
       返回選物清單
     </v-btn>
 
-    <v-row v-if="product" gutter="lg">
+    <v-row v-if="product" justify="center">
       <v-col cols="12" md="6">
-        <v-card class="border overflow-hidden" elevation="0" rounded="xl">
-          <v-img class="rounded-xl product-main-img" cover height="550" :src="product.image">
+        <v-card class="border-0 overflow-hidden" elevation="0" rounded="xl">
+          <v-img
+            class="rounded-xl product-main-img"
+            cover
+            :height="imgHeight"
+            :src="getImageUrl(product.image)"
+          >
             <template #placeholder>
               <v-row align="center" class="fill-height ma-0" justify="center">
                 <v-progress-circular color="brown-lighten-3" indeterminate></v-progress-circular>
@@ -27,76 +32,59 @@
         <v-chip
           class="mb-4 font-weight-bold"
           :color="getCategoryColor(product.category)"
+          size="small"
           variant="flat"
         >
           {{ product.category }}
         </v-chip>
 
-        <h1 class="text-h3 font-weight-bold font-serif color-tea-green mb-4">{{ product.name }}</h1>
+        <h1 class="text-h4 text-md-h3 font-weight-bold font-serif color-tea-green mb-4 leading-tight">
+          {{ product.name }}
+        </h1>
 
-        <div class="d-flex align-center mb-8">
-          <div class="text-h4 font-weight-bold price-text">
+        <div class="d-flex align-center flex-wrap mb-6 mb-md-8">
+          <div class="text-h5 text-md-h4 font-weight-bold price-text mr-4">
             NT$ {{ product.price?.toLocaleString() }}
           </div>
+
           <v-spacer></v-spacer>
-          <v-chip
-            class="font-weight-bold"
-            :color="
-              product.stock > 0
-                ? product.stock < 10
-                  ? 'orange-darken-2'
-                  : 'green-darken-1'
-                : 'red'
-            "
-            size="small"
-            variant="tonal"
-          >
-            {{ product.stock > 0 ? `限量供應中 (剩餘 ${product.stock})` : '目前缺貨' }}
+
+          <v-chip class="font-weight-bold" :color="stockStatus.color" size="small" variant="tonal">
+            <v-icon size="small" start>{{ stockStatus.icon }}</v-icon>
+            {{ stockStatus.text }}
           </v-chip>
         </div>
 
-        <v-divider class="mb-8"></v-divider>
+        <v-divider class="mb-6 mb-md-8"></v-divider>
 
-        <v-row class="mb-8 text-center bg-grey-lighten-4 rounded-lg pa-2 mx-0">
-          <v-col cols="4">
-            <div class="text-caption text-grey">海拔</div>
-            <div class="font-weight-bold text-body-2">{{ product.altitude || '1200m' }}</div>
-          </v-col>
-          <v-col class="border-s border-e" cols="4">
-            <div class="text-caption text-grey">發酵</div>
-            <div class="font-weight-bold text-body-2">{{ product.fermentation || '適中' }}</div>
-          </v-col>
-          <v-col cols="4">
-            <div class="text-caption text-grey">焙火</div>
-            <div class="font-weight-bold text-body-2">{{ product.roasting || '低焙火' }}</div>
-          </v-col>
-        </v-row>
-
-        <h3 class="text-h6 font-weight-bold mb-3 font-serif">茶品描述</h3>
-        <p class="text-body-1 text-grey-darken-2 mb-10 leading-relaxed font-serif white-space-pre">
+        <h3 class="text-subtitle-1 font-weight-bold mb-3 font-serif">茶品描述</h3>
+        <p class="text-body-1 text-grey-darken-2 mb-10 leading-relaxed font-serif white-space-pre word-break">
           {{ product.description }}
         </p>
 
-        <div class="pa-6 border rounded-xl bg-white shadow-sm">
+        <div class="pa-4 pa-md-6 border rounded-xl bg-white shadow-sm">
           <div class="d-flex align-center mb-6">
             <span class="text-subtitle-1 font-weight-bold mr-4">選擇數量</span>
             <div class="d-flex align-center border rounded-pill px-2 bg-grey-lighten-5">
               <v-btn
-                :disabled="quantity <= 1"
+                :disabled="quantity <= 1 || product.stock <= 0"
                 icon="mdi-minus"
                 size="small"
                 variant="text"
                 @click="quantity--"
               ></v-btn>
-              <div class="px-6 font-weight-bold text-h6">{{ quantity }}</div>
+              <div class="px-4 px-md-6 font-weight-bold text-h6">{{ quantity }}</div>
               <v-btn
-                :disabled="quantity >= product.stock"
+                :disabled="quantity >= product.stock || product.stock <= 0"
                 icon="mdi-plus"
                 size="small"
                 variant="text"
                 @click="quantity++"
               ></v-btn>
             </div>
+            <span v-if="product.stock > 0" class="ml-4 text-caption text-grey-darken-1">
+              (剩餘庫存: {{ product.stock }})
+            </span>
           </div>
 
           <v-btn
@@ -116,36 +104,28 @@
       </v-col>
     </v-row>
 
-    <v-row v-else class="text-center py-16">
-      <v-col
-        ><v-progress-circular color="brown" indeterminate size="64"></v-progress-circular
-      ></v-col>
+    <v-row v-else class="text-center py-16" justify="center">
+      <v-col cols="12">
+        <v-progress-circular color="brown" indeterminate size="64"></v-progress-circular>
+      </v-col>
     </v-row>
 
     <v-dialog v-model="showConfirmDialog" max-width="360" rounded="xl">
       <v-card class="pa-4 text-center">
         <v-card-text class="pt-6">
-          <v-icon class="mb-4" color="brown-lighten-1" size="64">mdi-cart-heart</v-icon>
+          <v-icon class="mb-4" color="brown-lighten-1" size="64">mdi-cart-check</v-icon>
           <div class="text-h6 font-weight-bold mb-2">確認加入購物車？</div>
           <div class="text-body-2 text-grey">您選擇了 {{ quantity }} 份 {{ product?.name }}</div>
         </v-card-text>
         <v-card-actions class="justify-center pb-6">
+          <v-btn color="grey" rounded="pill" variant="text" @click="showConfirmDialog = false">取消</v-btn>
           <v-btn
             class="px-6"
-            color="grey"
-            rounded="pill"
-            variant="text"
-            @click="showConfirmDialog = false"
-            >取消</v-btn
-          >
-          <v-btn
-            class="px-8"
             color="brown-darken-2"
             rounded="pill"
             variant="flat"
             @click="confirmAdd"
-            >確定</v-btn
-          >
+          >確定</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -153,13 +133,16 @@
 </template>
 
 <script setup>
-  import { inject, onMounted, ref } from 'vue'
+  import { computed, inject, onMounted, ref } from 'vue'
   import { useRoute } from 'vue-router'
+  import { useDisplay } from 'vuetify'
   import api from '@/composables/api'
   import { useCartStore } from '@/stores/cartStore'
 
   const route = useRoute()
   const cartStore = useCartStore()
+  const { mobile } = useDisplay()
+
   const showSnackbar = inject('showSnackbar')
   const showRequireLogin = inject('showRequireLogin')
 
@@ -168,7 +151,22 @@
   const showConfirmDialog = ref(false)
   const isSubmitting = ref(false)
 
-  // 💡 這裡是同步過來的顏色邏輯函式
+  const imgHeight = computed(() => (mobile.value ? 320 : 550))
+
+  // 💡 核心邏輯：計算庫存狀態文字、顏色與圖示
+  const stockStatus = computed(() => {
+    if (!product.value) return { text: '載入中', color: 'grey', icon: 'mdi-dots-horizontal' }
+
+    const stock = product.value.stock
+    if (stock <= 0) {
+      return { text: '目前缺貨', color: 'red-darken-1', icon: 'mdi-alert-circle' }
+    } else if (stock < 10) {
+      return { text: `限量供應 (剩餘 ${stock})`, color: 'orange-darken-2', icon: 'mdi-clock-fast' }
+    } else {
+      return { text: `庫存充足 (剩餘 ${stock})`, color: 'green-darken-1', icon: 'mdi-check-circle' }
+    }
+  })
+
   const colorMap = {
     '綠茶': 'green-darken-3',
     '白茶': 'blue-grey-darken-1',
@@ -178,8 +176,12 @@
     '黑茶(普洱茶)': 'brown-darken-4',
   }
 
-  const getCategoryColor = (category) => {
-    return colorMap[category] || 'brown-darken-3'
+  const getCategoryColor = category => colorMap[category] || 'brown-darken-3'
+
+  const getImageUrl = image => {
+    if (!image) return 'https://via.placeholder.com/500'
+    if (image.startsWith('http')) return image
+    return `http://localhost:5000/${image}`
   }
 
   const fetchProduct = async () => {
@@ -188,7 +190,10 @@
       const response = await api.get(`/products/${id}`)
       if (response.data?.success) {
         product.value = response.data.data
-        if (product.value.stock <= 0) quantity.value = 0
+        // 💡 如果沒庫存，初始數量設為 0
+        if (product.value.stock <= 0) {
+          quantity.value = 0
+        }
       }
     } catch {
       showSnackbar?.('載入失敗', 'error')
@@ -232,7 +237,10 @@
     color: #8d6e63;
   }
   .leading-relaxed {
-    line-height: 1.9 !important;
+    line-height: 1.8 !important;
+  }
+  .leading-tight {
+    line-height: 1.2 !important;
   }
   .border-s {
     border-left: 1px solid #ddd !important;
@@ -243,20 +251,17 @@
   .white-space-pre {
     white-space: pre-line;
   }
-
-  /* 圖片微調，增加質感 */
+  .word-break {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
   .product-main-img {
-    transition: transform 0.5s ease;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .product-main-img:hover {
-    transform: scale(1.02);
+    transform: scale(1.03);
   }
-
-  /* 操作按鈕懸浮感 */
   .action-btn {
     transition: all 0.3s ease;
-  }
-  .action-btn:hover {
-    box-shadow: 0 4px 15px rgba(78, 52, 46, 0.3) !important;
   }
 </style>
