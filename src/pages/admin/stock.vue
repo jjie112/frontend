@@ -30,7 +30,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="product in filteredProducts" :key="product._id">
+          <tr v-for="product in filteredProducts || []" :key="product._id">
             <td>{{ product.name }}</td>
             <td>
               <v-chip
@@ -122,11 +122,11 @@
 
   const getCategoryColor = (category) => {
     const colorMap = {
-      '綠茶': 'green-darken-2',
-      '白茶': 'blue-grey-darken-1',
-      '黃茶': 'orange-darken-1',
+      綠茶: 'green-darken-2',
+      白茶: 'blue-grey-darken-1',
+      黃茶: 'orange-darken-1',
       '青茶(烏龍茶)': 'teal-darken-3',
-      '紅茶': 'red-darken-3',
+      紅茶: 'red-darken-3',
       '黑茶(普洱茶)': 'grey-darken-4',
     }
     return colorMap[category] || 'brown-darken-2'

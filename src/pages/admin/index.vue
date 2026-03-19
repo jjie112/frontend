@@ -18,7 +18,16 @@
               <div class="text-caption font-weight-bold text-grey-darken-1 mb-1">
                 {{ card.title }}
               </div>
-              <div class="text-h4 font-weight-black color-tea-green">{{ card.value }}</div>
+              <div class="text-h4 font-weight-black color-tea-green">
+                <v-progress-circular
+                  v-if="loading"
+                  class="mr-2"
+                  indeterminate
+                  size="20"
+                  width="2"
+                ></v-progress-circular>
+                {{ card.value }}
+              </div>
             </div>
             <v-avatar :color="card.bgColor" rounded="lg" size="48">
               <v-icon :color="card.iconColor" size="28">{{ card.icon }}</v-icon>
@@ -56,19 +65,23 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="i in 5" :key="i" class="table-row-hover">
-                <td class="font-weight-medium">#ORD-2024-00{{ i }}</td>
+              <tr v-if="orders?.length === 0 && !loading">
+                <td class="text-center py-8 text-grey" colspan="3">目前尚無訂單資料</td>
+              </tr>
+              <tr v-for="order in orders" :key="order._id" class="table-row-hover">
+                <td class="font-weight-medium text-uppercase">#{{ order._id.slice(-8) }}</td>
                 <td class="text-right color-brown font-weight-bold">
-                  NT$ {{ (1500 * i).toLocaleString() }}
+                  NT$ {{ order.totalPrice.toLocaleString() }}
                 </td>
                 <td class="text-center">
                   <v-chip
                     class="font-weight-bold"
-                    color="orange-darken-1"
+                    :color="getStatusColor(order.status)"
                     size="small"
                     variant="flat"
-                    >待處理</v-chip
                   >
+                    {{ getStatusText(order.status) }}
+                  </v-chip>
                 </td>
               </tr>
             </tbody>
@@ -98,7 +111,12 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue'
+  import { inject, onMounted, ref } from 'vue'
+  import api from '@/composables/api'
+
+  const showSnackbar = inject('showSnackbar')
+  const orders = ref([])
+  const loading = ref(true)
 
   const summaryCards = ref([
     {
@@ -137,52 +155,95 @@
     { title: '訂單流程追蹤', icon: 'mdi-truck-delivery-outline', link: '/admin/orders' },
     { title: '查看銷售報表', icon: 'mdi-chart-line', link: '/admin' },
   ]
+
+  // 獲取狀態顏色
+  const getStatusColor = (status) => {
+    const colors = ['orange-darken-1', 'blue-darken-1', 'green-darken-1', 'red-darken-1']
+    return colors[status] || 'grey'
+  }
+
+  // 獲取狀態文字
+  const getStatusText = (status) => {
+    const texts = ['待處理', '已出貨', '已完成', '已取消']
+    return texts[status] || '未知'
+  }
+
+  // 獲取數據與計算統計
+  const fetchDashboardData = async () => {
+    try {
+      loading.value = true
+      // 假設後端有 /orders/all 路由獲取所有訂單
+      const { data } = await api.get('/orders/all')
+
+      if (data.success) {
+        const allOrders = data.data
+
+        // 取最近 5 筆
+        orders.value = allOrders.slice(0, 5)
+
+        // 計算待處理 (status 0)
+        const pendingCount = allOrders.filter((o) => o.status === 0).length
+        summaryCards.value[1].value = pendingCount.toString()
+
+        // 計算今日營業額
+        const todayStr = new Date().toLocaleDateString()
+        const todayRevenue = allOrders
+          .filter((o) => new Date(o.createdAt).toLocaleDateString() === todayStr)
+          .reduce((sum, o) => sum + o.totalPrice, 0)
+        summaryCards.value[0].value = `NT$ ${todayRevenue.toLocaleString()}`
+
+        // 如果有抓到產品數據，可以另外計算缺貨商品...
+      }
+    } catch (error) {
+      console.error('抓取儀表板失敗', error)
+      showSnackbar?.({
+        text: '獲取數據失敗，請確認網路連線',
+        showCloseButton: false,
+        snackbarProps: { color: 'red' },
+      })
+    } finally {
+      loading.value = false
+    }
+  }
+
+  onMounted(() => {
+    fetchDashboardData()
+  })
 </script>
 
 <style scoped>
   .font-serif {
     font-family: 'Noto Serif TC', serif !important;
   }
-
   .color-tea-green {
     color: #2d3e33;
   }
-
   .color-brown {
     color: #8d6e63;
   }
-
   .bg-stone-light {
-    /* background-color: #f8f9f8; */
     min-height: 100vh;
   }
-
   .border-card {
     border: 1px solid rgba(45, 62, 51, 0.08) !important;
   }
-
   .shadow-sm {
     box-shadow: 0 4px 20px rgba(45, 62, 51, 0.05) !important;
   }
-
   .admin-table :deep(th) {
     height: 56px !important;
     font-size: 0.85rem !important;
     letter-spacing: 1px;
   }
-
   .admin-table :deep(td) {
     height: 64px !important;
   }
-
   .table-row-hover:hover {
     background-color: #fdfdfd;
   }
-
   .quick-action-item {
     transition: transform 0.2s;
   }
-
   .quick-action-item:hover {
     transform: translateX(5px);
   }
