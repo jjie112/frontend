@@ -81,9 +81,8 @@
 
 <script setup>
   import { computed, onMounted, ref } from 'vue'
-  import { useApi } from '@/composables/api'
+  import api from '@/composables/api'
 
-  const { apiAuth } = useApi()
   const products = ref([])
   const search = ref('')
   const dialog = ref(false)
@@ -95,13 +94,11 @@
     if (stock < 10) return 'orange-darken-1' // 警告
     return 'green-darken-1' // 充足
   }
-
   const fetchProducts = async () => {
     try {
+      // 這裡直接用 api.get
       // 注意：路徑改為 /products，並加上 admin=true
-      // 務必使用 apiAuth 以確保帶上管理員的 Token
-      const { data } = await apiAuth.get('/products?admin=true')
-
+      const { data } = await api.get('/products?admin=true')
       if (data.success) {
         products.value = data.data
       }
