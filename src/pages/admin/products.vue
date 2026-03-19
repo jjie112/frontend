@@ -391,7 +391,7 @@
 
   const getImageUrl = (image) => {
     if (!image) return 'https://via.placeholder.com/150'
-    return image.startsWith('http') ? image : `http://localhost:5000/${image}`
+    return image.startsWith('http') ? image : `${import.meta.env.VITE_API_URL}/${image}`
   }
 
   const deleteItem = async (item) => {

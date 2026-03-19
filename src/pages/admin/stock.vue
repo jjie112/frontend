@@ -33,7 +33,14 @@
           <tr v-for="product in filteredProducts" :key="product._id">
             <td>{{ product.name }}</td>
             <td>
-              <v-chip size="small">{{ product.category }}</v-chip>
+              <v-chip
+                class="font-weight-bold"
+                :color="getCategoryColor(product.category)"
+                size="small"
+                variant="flat"
+              >
+                {{ product.category }}
+              </v-chip>
             </td>
             <td class="text-center">
               <v-chip class="font-weight-bold" :color="getStockColor(product.stock)" variant="flat">
@@ -41,9 +48,22 @@
               </v-chip>
             </td>
             <td class="text-center">
-              <v-icon :color="product.sell ? 'green' : 'grey'">
-                {{ product.sell ? 'mdi-check-circle' : 'mdi-minus-circle' }}
-              </v-icon>
+              <v-switch
+                v-model="product.isAvailable"
+                class="d-inline-flex"
+                color="green"
+                density="compact"
+                hide-details
+                inset
+                :loading="product.loadingStatus"
+                @change="toggleStatus(product)"
+              >
+                <template #label>
+                  <span :class="product.isAvailable ? 'text-green' : 'text-grey'">
+                    {{ product.isAvailable ? '已上架' : '未上架' }}
+                  </span>
+                </template>
+              </v-switch>
             </td>
             <td class="text-right">
               <v-btn
@@ -89,7 +109,7 @@
 </template>
 
 <script setup>
-  import { computed, onMounted, ref } from 'vue'
+  import { computed, inject, onMounted, ref } from 'vue'
   import { useRouter } from 'vue-router'
   import api from '@/composables/api'
 
@@ -98,6 +118,19 @@
   const search = ref('')
   const dialog = ref(false)
   const editingProduct = ref({ _id: '', name: '', stock: 0 })
+  const showSnackbar = inject('showSnackbar')
+
+  const getCategoryColor = (category) => {
+    const colorMap = {
+      '綠茶': 'green-darken-2',
+      '白茶': 'blue-grey-darken-1',
+      '黃茶': 'orange-darken-1',
+      '青茶(烏龍茶)': 'teal-darken-3',
+      '紅茶': 'red-darken-3',
+      '黑茶(普洱茶)': 'grey-darken-4',
+    }
+    return colorMap[category] || 'brown-darken-2'
+  }
 
   // 取得庫存顏色邏輯
   const getStockColor = (stock) => {
@@ -105,6 +138,7 @@
     if (stock < 10) return 'orange-darken-1' // 警告
     return 'green-darken-1' // 充足
   }
+
   const fetchProducts = async () => {
     try {
       // 這裡直接用 api.get
@@ -148,6 +182,36 @@
       console.error('更新失敗:', error)
       const message = error.response?.data?.message || '更新失敗，請檢查權限或網路'
       alert(message)
+    }
+  }
+
+  const toggleStatus = async (product) => {
+    // 在產品物件上動態加入 loading 狀態，防止重複點擊
+    product.loadingStatus = true
+
+    try {
+      // 呼叫後端 PATCH 介面，只更新 isAvailable 欄位
+      // 這裡呼叫 apiAuth (需要 Token)
+      const { data } = await api.patch(`/products/${product._id}`, {
+        isAvailable: product.isAvailable, // 此時 v-model 已經把值變了
+      })
+
+      if (data.success) {
+        // 如果你有封裝 showSnackbar
+        showSnackbar?.('狀態更新成功', 'success')
+      } else {
+        // 失敗時把狀態變回來
+        product.isAvailable = !product.isAvailable
+        showSnackbar?.('更新失敗', 'error')
+      }
+    } catch (error) {
+      console.error('更新狀態失敗:', error)
+      // 失敗時把狀態變回來
+      product.isAvailable = !product.isAvailable
+      alert('更新失敗，請檢查權限或網路')
+    } finally {
+      // 關閉 loading 狀態
+      product.loadingStatus = false
     }
   }
 
