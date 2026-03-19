@@ -81,8 +81,9 @@
 
 <script setup>
   import { computed, onMounted, ref } from 'vue'
-  import api from '@/composables/api'
+  import { useApi } from '@/composables/api'
 
+  const { apiAuth } = useApi()
   const products = ref([])
   const search = ref('')
   const dialog = ref(false)
@@ -97,10 +98,15 @@
 
   const fetchProducts = async () => {
     try {
-      const { data } = await api.get('/products/all') // 假設你有一個給管理員看的 API
-      products.value = data.data
-    } catch {
-      console.error('取得庫存失敗')
+      // 注意：路徑改為 /products，並加上 admin=true
+      // 務必使用 apiAuth 以確保帶上管理員的 Token
+      const { data } = await apiAuth.get('/products?admin=true')
+
+      if (data.success) {
+        products.value = data.data
+      }
+    } catch (error) {
+      console.error('取得庫存失敗:', error)
     }
   }
 
@@ -139,3 +145,10 @@
 
   onMounted(fetchProducts)
 </script>
+
+<route lang="yaml">
+meta:
+  login: true
+  admin: true
+  title: '庫存管理'
+</route>

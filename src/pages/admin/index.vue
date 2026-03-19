@@ -24,10 +24,6 @@
               <v-icon :color="card.iconColor" size="28">{{ card.icon }}</v-icon>
             </v-avatar>
           </div>
-          <!-- <div class="text-caption mt-4 text-grey">
-            <v-icon color="success" size="small">mdi-trending-up</v-icon>
-            較昨日提升 0%
-          </div> -->
         </v-card>
       </v-col>
     </v-row>
@@ -45,7 +41,8 @@
               density="compact"
               to="/admin/orders"
               variant="text"
-            >查看全部</v-btn>
+              >查看全部</v-btn
+            >
           </v-card-title>
 
           <v-divider class="border-opacity-25"></v-divider>
@@ -70,7 +67,8 @@
                     color="orange-darken-1"
                     size="small"
                     variant="flat"
-                  >待處理</v-chip>
+                    >待處理</v-chip
+                  >
                 </td>
               </tr>
             </tbody>
@@ -135,6 +133,7 @@
 
   const quickActions = [
     { title: '商品上架管理', icon: 'mdi-plus-box-outline', link: '/admin/products' },
+    { title: '商品庫存管理', icon: 'mdi-package-variant-closed', link: '/admin/stock' },
     { title: '訂單流程追蹤', icon: 'mdi-truck-delivery-outline', link: '/admin/orders' },
     { title: '查看銷售報表', icon: 'mdi-chart-line', link: '/admin' },
   ]

@@ -33,8 +33,8 @@
           <v-list class="bg-transparent pa-0" density="comfortable" nav>
             <v-list-item
               v-if="userStore.role === 'admin'"
-              active-color="orange-darken-4"
               class="mb-2 shadow-sm bg-white"
+              color="orange-darken-4"
               prepend-icon="mdi-view-dashboard-outline"
               rounded="lg"
               title="進入管理後台"
