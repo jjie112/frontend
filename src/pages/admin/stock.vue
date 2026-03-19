@@ -90,8 +90,10 @@
 
 <script setup>
   import { computed, onMounted, ref } from 'vue'
+  import { useRouter } from 'vue-router'
   import api from '@/composables/api'
 
+  const router = useRouter()
   const products = ref([])
   const search = ref('')
   const dialog = ref(false)
