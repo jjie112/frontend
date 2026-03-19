@@ -95,7 +95,7 @@
             </div>
             <v-card-subtitle class="pa-0 text-grey-darken-1">
               <v-icon class="mr-1" size="small">mdi-map-marker-outline</v-icon>
-              {{ product.origin || '台灣精選' }}
+              {{ product.origin }}
             </v-card-subtitle>
           </v-card-item>
 
@@ -224,7 +224,8 @@
   const getImageUrl = image => {
     if (!image) return 'https://via.placeholder.com/300'
     if (image.startsWith('http')) return image
-    return `${import.meta.env.VITE_API_BASE}/${image}`
+    // return `${import.meta.env.VITE_API_BASE}/${image}`
+    return `${import.meta.env.VITE_API_URL}/${image}`
   }
 
   const addToCart = async product => {

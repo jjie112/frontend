@@ -242,7 +242,7 @@
   }
 
   .bg-paper-light {
-    background-color: #F5F5DC !important;
+    background-color: #f5f5dc !important;
     color: #c19a6b !important;
   }
 

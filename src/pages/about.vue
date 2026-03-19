@@ -3,8 +3,7 @@
     <v-row class="mb-16" justify="center">
       <v-col class="text-center" cols="12" lg="9" md="11">
         <span class="text-overline color-gold font-weight-bold letter-spacing-2">
-          SINCE ANCIENT TIMES</span
-        >
+          SINCE ANCIENT TIMES</span>
 
         <h1 class="text-h3 font-weight-bold mt-2 mb-8 tea-title">茶文化的起源與發展</h1>
 
@@ -52,9 +51,7 @@
             </v-img>
             <div class="fixed-card-content">
               <v-card-item>
-                <v-chip class="mb-2" color="green-darken-2" size="small" variant="tonal"
-                  >起源｜從藥用到飲品</v-chip
-                >
+                <v-chip class="mb-2" color="green-darken-2" size="small" variant="tonal">起源｜從藥用到飲品</v-chip>
                 <v-card-title class="text-h6 font-weight-bold">神農時代：茶的序幕</v-card-title>
                 <v-card-text class="text-body-2 text-grey-darken-2 line-clamp-desc">
                   茶的歷史可追溯至數千年前。相傳神農氏在嚐百草時發現茶葉煮水能解毒，揭開了茶的序幕。早期主要作為清熱解毒的藥用植物。
@@ -73,9 +70,7 @@
           <v-img cover height="300" src="../assets/sixDynasties.webp"></v-img>
           <div class="fixed-card-content">
             <v-card-item>
-              <v-chip class="mb-2" color="brown-lighten-1" size="small" variant="tonal"
-                >形成｜文人與禪意</v-chip
-              >
+              <v-chip class="mb-2" color="brown-lighten-1" size="small" variant="tonal">形成｜文人與禪意</v-chip>
               <v-card-title class="text-h6 font-weight-bold">魏晉：清淡守志的風骨</v-card-title>
               <v-card-text class="text-body-2 text-grey-darken-2 line-clamp-desc">
                 茶逐漸從藥用轉為飲用，並與文人談玄及佛教修行結合。飲茶象徵清淨、內省，奠定了茶文化的精神基礎。
@@ -93,9 +88,7 @@
           <v-img cover height="300" src="../assets/tangDynasty.webp"></v-img>
           <div class="fixed-card-content">
             <v-card-item>
-              <v-chip class="mb-2" color="amber-darken-3" size="small" variant="tonal"
-                >成熟｜茶聖陸羽</v-chip
-              >
+              <v-chip class="mb-2" color="amber-darken-3" size="small" variant="tonal">成熟｜茶聖陸羽</v-chip>
               <v-card-title class="text-h6 font-weight-bold">唐代：全民飲茶的盛世</v-card-title>
               <v-card-text class="text-body-2 text-grey-darken-2 line-clamp-desc">
                 陸羽撰寫《茶經》，系統性地規範了製茶與飲茶藝術。茶從貴族走向民間，茶道精神正式確立。
@@ -113,9 +106,7 @@
           <v-img cover height="300" src="../assets/songDynasty.webp"></v-img>
           <div class="fixed-card-content">
             <v-card-item>
-              <v-chip class="mb-2" color="teal-darken-1" size="small" variant="tonal"
-                >巔峰｜極致美學</v-chip
-              >
+              <v-chip class="mb-2" color="teal-darken-1" size="small" variant="tonal">巔峰｜極致美學</v-chip>
               <v-card-title class="text-h6 font-weight-bold">宋代：點茶與鬥茶之樂</v-card-title>
               <v-card-text class="text-body-2 text-grey-darken-2 line-clamp-desc">
                 飲茶成為一種融合審美、社交與生活品味的頂級藝術。點茶技法與精緻建盞，展現了宋人雅致的生活美學。
@@ -133,9 +124,7 @@
           <v-img cover height="300" src="../assets/mingDynastyNow.webp"></v-img>
           <div class="fixed-card-content">
             <v-card-item>
-              <v-chip class="mb-2" color="brown-darken-3" size="small" variant="tonal"
-                >轉變｜散茶與世界</v-chip
-              >
+              <v-chip class="mb-2" color="brown-darken-3" size="small" variant="tonal">轉變｜散茶與世界</v-chip>
               <v-card-title class="text-h6 font-weight-bold">明代以降：回歸生活本味</v-card-title>
               <v-card-text class="text-body-2 text-grey-darken-2 line-clamp-desc">
                 明代廢團茶改散茶，奠定了現代沖泡方式。隨後茶葉出口全球，六大茶類定型，成為連結世界的文化語言。

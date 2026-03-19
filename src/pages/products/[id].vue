@@ -38,7 +38,9 @@
           {{ product.category }}
         </v-chip>
 
-        <h1 class="text-h4 text-md-h3 font-weight-bold font-serif color-tea-green mb-4 leading-tight">
+        <h1
+          class="text-h4 text-md-h3 font-weight-bold font-serif color-tea-green mb-4 leading-tight"
+        >
           {{ product.name }}
         </h1>
 
@@ -58,7 +60,9 @@
         <v-divider class="mb-6 mb-md-8"></v-divider>
 
         <h3 class="text-subtitle-1 font-weight-bold mb-3 font-serif">茶品描述</h3>
-        <p class="text-body-1 text-grey-darken-2 mb-10 leading-relaxed font-serif white-space-pre word-break">
+        <p
+          class="text-body-1 text-grey-darken-2 mb-10 leading-relaxed font-serif white-space-pre word-break"
+        >
           {{ product.description }}
         </p>
 
@@ -181,7 +185,8 @@
   const getImageUrl = image => {
     if (!image) return 'https://via.placeholder.com/500'
     if (image.startsWith('http')) return image
-    return `http://localhost:5000/${image}`
+    // return `http://localhost:5000/${image}`
+    return `${import.meta.env.VITE_API_URL}/${image}`
   }
 
   const fetchProduct = async () => {

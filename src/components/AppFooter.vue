@@ -73,7 +73,9 @@
     transition: 0.3s;
   }
 
-  .custom-footer, .footer-logo, .footer-desc {
+  .custom-footer,
+  .footer-logo,
+  .footer-desc {
     font-family: 'Noto Serif TC', serif !important;
   }
 
