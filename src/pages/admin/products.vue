@@ -457,7 +457,7 @@
 
 <route lang="yaml">
 meta:
-  title: '管理者後台'
-  login: login-only
+  title: '商品管理'
+  login: true
   admin: true
 </route>

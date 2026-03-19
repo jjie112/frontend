@@ -187,3 +187,10 @@
     transform: translateX(5px);
   }
 </style>
+
+<route lang="yaml">
+meta:
+  title: '營運概覽'
+  login: true
+  admin: true
+</route>

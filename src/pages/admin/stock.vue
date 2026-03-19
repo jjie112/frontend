@@ -76,6 +76,15 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-btn
+      class="mt-6 text-grey-darken-1"
+      prepend-icon="mdi-arrow-left"
+      variant="text"
+      @click="router.back()"
+    >
+      返回上一頁
+    </v-btn>
   </v-container>
 </template>
 
@@ -145,7 +154,7 @@
 
 <route lang="yaml">
 meta:
+  title: '庫存管理'
   login: true
   admin: true
-  title: '庫存管理'
 </route>
