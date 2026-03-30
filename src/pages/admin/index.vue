@@ -153,7 +153,6 @@
     { title: '商品上架管理', icon: 'mdi-plus-box-outline', link: '/admin/products' },
     { title: '商品庫存管理', icon: 'mdi-package-variant-closed', link: '/admin/stock' },
     { title: '訂單流程追蹤', icon: 'mdi-truck-delivery-outline', link: '/admin/orders' },
-    { title: '查看銷售報表', icon: 'mdi-chart-line', link: '/admin' },
   ]
 
   // 獲取狀態顏色
