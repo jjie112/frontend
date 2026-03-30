@@ -182,7 +182,7 @@
       ])
 
       // 1.處理訂單相關數據
-      if (ordersRes.data.success) {
+      if (resOrders.data.success) {
         const allOrders = resOrders.data.data
         // 取最近 5 筆
         orders.value = allOrders.slice(0, 5)
