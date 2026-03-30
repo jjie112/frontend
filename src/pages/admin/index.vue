@@ -153,6 +153,7 @@
     { title: '商品上架管理', icon: 'mdi-plus-box-outline', link: '/admin/products' },
     { title: '商品庫存管理', icon: 'mdi-package-variant-closed', link: '/admin/stock' },
     { title: '訂單流程追蹤', icon: 'mdi-truck-delivery-outline', link: '/admin/orders' },
+    { title: '會員資料管理', icon: 'mdi-account-group-outline', link: '/admin/member' },
   ]
 
   // 獲取狀態顏色
@@ -171,27 +172,41 @@
   const fetchDashboardData = async () => {
     try {
       loading.value = true
-      // 假設後端有 /orders/all 路由獲取所有訂單
-      const { data } = await api.get('/orders/all')
 
-      if (data.success) {
-        const allOrders = data.data
+      // 建議寫法：直接解構出 data 並重新命名
+      const [{ data: ordersRes }, { data: usersRes }, { data: productsRes }] = await Promise.all([
+        api.get('/orders/all'),
+        api.get('/users/all'),
+        api.get('/products/all'),
+      ])
+
+      // 1.處理訂單相關數據
+      if (ordersRes.data.success) {
+        const allOrders = ordersRes.data
 
         // 取最近 5 筆
         orders.value = allOrders.slice(0, 5)
 
-        // 計算待處理 (status 0)
-        const pendingCount = allOrders.filter((o) => o.status === 0).length
-        summaryCards.value[1].value = pendingCount.toString()
+        // 待處理訂單
+        summaryCards.value[1].value = allOrders.filter((o) => o.status === 0).length.toString()
 
-        // 計算今日營業額
+        // 今日營業額
         const todayStr = new Date().toLocaleDateString()
         const todayRevenue = allOrders
           .filter((o) => new Date(o.createdAt).toLocaleDateString() === todayStr)
           .reduce((sum, o) => sum + o.totalPrice, 0)
         summaryCards.value[0].value = `NT$ ${todayRevenue.toLocaleString()}`
+      }
 
-        // 如果有抓到產品數據，可以另外計算缺貨商品...
+      // 2. 處理會員總數
+      if (usersRes.success) {
+        summaryCards.value[2].value = usersRes.data.length.toString()
+      }
+
+      // 3. 處理缺貨商品
+      if (productsRes.success) {
+        const outOfStockCount = productsRes.data.filter((p) => p.stock <= 0).length
+        summaryCards.value[3].value = outOfStockCount.toString()
       }
     } catch (error) {
       console.error('抓取儀表板失敗', error)
