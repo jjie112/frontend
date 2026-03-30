@@ -1,20 +1,16 @@
 <template>
-  <v-container class="py-8">
-    <div class="d-flex align-center mb-8">
-      <v-btn
-        class="mr-4 bg-white color-tea-green shadow-sm"
-        icon="mdi-arrow-left"
-        size="small"
-        variant="elevated"
-        @click="$router.back()"
-      ></v-btn>
-      <div>
-        <h1 class="text-h4 font-weight-black color-tea-green font-serif">會員管理</h1>
-        <p class="text-caption text-grey-darken-1 mt-1">管理平台使用者權限與帳號狀態</p>
-      </div>
-    </div>
+  <v-container class="py-10">
+    <v-row align="center" class="mb-8">
+      <v-col cols="12" md="6">
+        <h1 class="text-h4 font-weight-bold color-tea-green font-serif mb-2">
+          <v-icon class="mr-2" color="green-darken-3" icon="mdi-account-group-outline"></v-icon>
+          會員管理系統
+        </h1>
+        <p class="text-subtitle-2 text-grey-darken-1">管理平台使用者權限與帳號狀態</p>
+      </v-col>
+    </v-row>
 
-    <v-card class="rounded-xl border-card shadow-sm" elevation="0">
+    <v-card class="rounded-xl border shadow-sm" elevation="0">
       <v-table class="admin-table">
         <thead>
           <tr class="bg-grey-lighten-5">
@@ -62,6 +58,15 @@
         </tbody>
       </v-table>
     </v-card>
+
+    <v-btn
+      class="mt-6 text-grey-darken-1"
+      prepend-icon="mdi-arrow-left"
+      variant="text"
+      @click="$router.back()"
+    >
+      返回上一頁
+    </v-btn>
   </v-container>
 </template>
 
@@ -72,7 +77,6 @@
   const showSnackbar = inject('showSnackbar')
   const users = ref([])
 
-  // 新增日期格式化函數
   const formatDate = (dateStr) => {
     const date = new Date(dateStr)
     return date.toLocaleString('zh-TW', {
@@ -90,21 +94,18 @@
       const { data } = await api.get('/users/all')
       users.value = data.data
     } catch {
-      showSnackbar?.({
-        text: '無法取得會員清單，請確認管理員權限',
-        snackbarProps: { color: 'red' },
-      })
+      showSnackbar?.({ text: '無法取得會員清單', snackbarProps: { color: 'red' } })
     }
   }
 
   const delUser = async (id) => {
-    if (!confirm('🚨 警告：刪除會員將移除其所有相關資料，確定要繼續嗎？')) return
+    if (!confirm('🚨 警告：確定要刪除此會員嗎？此動作無法復原。')) return
     try {
       await api.delete(`/users/${id}`)
       showSnackbar?.({ text: '會員已成功刪除', snackbarProps: { color: 'success' } })
       fetchUsers()
     } catch {
-      showSnackbar?.({ text: '刪除失敗，請稍後再試', snackbarProps: { color: 'red' } })
+      showSnackbar?.({ text: '刪除失敗', snackbarProps: { color: 'red' } })
     }
   }
 
@@ -118,9 +119,6 @@
   .color-tea-green {
     color: #2d3e33;
   }
-  .border-card {
-    border: 1px solid rgba(45, 62, 51, 0.08) !important;
-  }
   .shadow-sm {
     box-shadow: 0 4px 20px rgba(45, 62, 51, 0.05) !important;
   }
@@ -133,7 +131,7 @@
     height: 70px !important;
   }
   .table-row-hover:hover {
-    background-color: #fcfaf8; /* 淡淡的茶色 hover */
+    background-color: #fcfaf8;
     transition: background-color 0.3s;
   }
 </style>
