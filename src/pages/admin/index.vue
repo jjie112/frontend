@@ -174,16 +174,16 @@
       loading.value = true
 
       // 建議寫法：直接解構出 data 並重新命名
-      const [{ data: ordersRes }, { data: usersRes }, { data: productsRes }] = await Promise.all([
+      const [resOrders, resUsers, resProducts] = await Promise.all([
         api.get('/orders/all'),
         api.get('/users/all'),
-        api.get('/products/all'),
+        // 路徑改為 /products，並加上 ?admin=true
+        api.get('/products', { params: { admin: true } }),
       ])
 
       // 1.處理訂單相關數據
       if (ordersRes.data.success) {
-        const allOrders = ordersRes.data
-
+        const allOrders = resOrders.data.data
         // 取最近 5 筆
         orders.value = allOrders.slice(0, 5)
 
@@ -198,23 +198,19 @@
         summaryCards.value[0].value = `NT$ ${todayRevenue.toLocaleString()}`
       }
 
-      // 2. 處理會員總數
-      if (usersRes.success) {
-        summaryCards.value[2].value = usersRes.data.length.toString()
+      // 2. 處理會員
+      if (resUsers.data.success) {
+        summaryCards.value[2].value = resUsers.data.data.length.toString()
       }
 
       // 3. 處理缺貨商品
-      if (productsRes.success) {
-        const outOfStockCount = productsRes.data.filter((p) => p.stock <= 0).length
+      if (resProducts.data.success) {
+        // 這裡會拿到所有商品（因為用了 admin=true）
+        const outOfStockCount = resProducts.data.data.filter((p) => p.stock <= 0).length
         summaryCards.value[3].value = outOfStockCount.toString()
       }
     } catch (error) {
       console.error('抓取儀表板失敗', error)
-      showSnackbar?.({
-        text: '獲取數據失敗，請確認網路連線',
-        showCloseButton: false,
-        snackbarProps: { color: 'red' },
-      })
     } finally {
       loading.value = false
     }
