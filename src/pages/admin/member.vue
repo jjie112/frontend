@@ -170,12 +170,12 @@
     try {
       const { data } = await api.delete(`/users/${id}`)
       if (data.success) {
-        showSnackbar?.({ text: '該會員資料已從系統移除', snackbarProps: { color: 'success' } })
+        showSnackbar?.('該會員資料已從系統移除', 'success')
         fetchUsers()
       }
     } catch (error) {
       const errorMsg = error.response?.data?.message || '刪除失敗，請檢查權限'
-      showSnackbar?.({ text: errorMsg, snackbarProps: { color: 'red' } })
+      showSnackbar?.(errorMsg, 'red')
     }
   }
 
