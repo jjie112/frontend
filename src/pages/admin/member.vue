@@ -88,7 +88,7 @@
             icon="mdi-delete-alert-outline"
             title="刪除會員"
             variant="text"
-            @click="delUser(item._id, item.name)"
+            @click="delUser(item._id, item.account)"
           ></v-btn>
         </template>
 
@@ -160,9 +160,10 @@
     }
   }
 
-  const delUser = async (id, name) => {
-    // 傳入 name 讓提示更具體
-    const message = `🚨 嚴重警告：確定要刪除會員「${name}」嗎？\n\n這將會移除該會員的所有個人資料，且此動作無法復原。`
+  const delUser = async (id, account) => {
+    // 使用傳入的 account，若萬一沒有值則顯示 '此會員'
+    const displayName = account || '此會員'
+    const message = `🚨 嚴重警告：確定要刪除會員「${displayName}」嗎？\n\n這將會移除該會員的所有個人資料，且此動作無法復原。`
 
     if (!confirm(message)) return
 
