@@ -54,16 +54,16 @@
 
         <template #[`item.u_id`]="{ item }">
           <div class="d-flex align-center py-2">
-            <v-avatar class="mr-3" color="brown-lighten-4" size="32">
-              <span class="text-caption font-weight-bold text-brown-darken-3">
+            <v-avatar class="mr-3 shadow-sm" color="green-lighten-5" size="36">
+              <span class="text-subtitle-2 font-weight-bold color-tea-green">
                 {{ item.u_id?.account?.charAt(0).toUpperCase() || '?' }}
               </span>
             </v-avatar>
             <div>
-              <div class="font-weight-bold color-tea-green">
+              <div class="font-weight-bold color-tea-green text-body-2">
                 {{ item.u_id?.account || '未知用戶' }}
               </div>
-              <div class="text-caption text-grey">{{ item.u_id?.email }}</div>
+              <div class="text-caption text-grey-darken-1">{{ item.u_id?.email }}</div>
             </div>
           </div>
         </template>
@@ -102,7 +102,7 @@
             <v-list border class="rounded-lg pa-1">
               <v-list-item
                 v-if="item.status === 0"
-                color="success"
+                color="green-darken-2"
                 prepend-icon="mdi-check-circle-outline"
                 rounded="md"
                 title="完成訂單"
@@ -110,7 +110,7 @@
               ></v-list-item>
               <v-list-item
                 v-if="item.status !== 2"
-                color="orange-darken-2"
+                color="orange-darken-3"
                 prepend-icon="mdi-close-circle-outline"
                 rounded="md"
                 title="取消訂單"

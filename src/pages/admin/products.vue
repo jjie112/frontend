@@ -95,16 +95,14 @@
         <template #[`item.actions`]="{ item }">
           <div class="d-flex align-center justify-center">
             <v-btn
-              color="blue-darken-2"
-              icon="mdi-pencil-outline"
-              size="small"
+              color="brown-lighten-1"
+              icon="mdi-pencil-box-multiple-outline"
               variant="text"
               @click="openDialog(item)"
             ></v-btn>
             <v-btn
               color="red-darken-2"
-              icon="mdi-delete-outline"
-              size="small"
+              icon="mdi-trash-can-outline"
               variant="text"
               @click="deleteItem(item)"
             ></v-btn>
