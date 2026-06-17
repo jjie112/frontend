@@ -24,7 +24,8 @@
                     <v-col class="mt-2 mt-sm-0" cols="6" sm="3">
                       <span class="text-caption text-grey-darken-1 d-block">訂單總額</span>
                       <span class="font-weight-bold color-brown">
-                        NT$ {{ order.totalPrice.toLocaleString() }}</span>
+                        NT$ {{ order.totalPrice.toLocaleString() }}</span
+                      >
                     </v-col>
                     <v-col class="text-right mt-2 mt-sm-0" cols="6" sm="3">
                       <v-chip
@@ -72,7 +73,8 @@
                         variant="text"
                         @click="cancelOrder(order._id)"
                       >
-                        取消訂單</v-btn>
+                        取消訂單</v-btn
+                      >
                       <v-btn
                         v-if="order.status === 2"
                         color="grey-darken-1"
@@ -80,7 +82,8 @@
                         variant="text"
                         @click="deleteOrder(order._id)"
                       >
-                        刪除紀錄</v-btn>
+                        刪除紀錄</v-btn
+                      >
                     </div>
                   </div>
                 </v-expansion-panel-text>
@@ -96,7 +99,8 @@
           variant="text"
           @click="router.back()"
         >
-          返回上一頁</v-btn>
+          返回上一頁</v-btn
+        >
       </v-col>
     </v-row>
   </v-container>
@@ -105,7 +109,7 @@
 <script setup>
   import { inject, onMounted, ref } from 'vue'
   import { useRouter } from 'vue-router'
-  import api from '@/composables/api'
+  import api from '@/api/instance'
 
   const router = useRouter()
   const showSnackbar = inject('showSnackbar')
@@ -124,14 +128,14 @@
   }
 
   // 狀態顏色判斷 (根據後端定義，假設 0:待處理, 1:完成, 2:取消)
-  const getStatusColor = status => {
+  const getStatusColor = (status) => {
     if (status === 0) return 'orange-darken-1'
     if (status === 1) return 'success'
     return 'grey'
   }
 
   // 取消訂單
-  const cancelOrder = async id => {
+  const cancelOrder = async (id) => {
     if (!confirm('確定要取消這筆訂單嗎？')) return
     try {
       // 假設後端 PATCH /orders/:id 是用來更改狀態
@@ -146,7 +150,7 @@
   }
 
   // 刪除訂單紀錄
-  const deleteOrder = async id => {
+  const deleteOrder = async (id) => {
     if (!confirm('確定要從紀錄中刪除這筆訂單嗎？（刪除後無法恢復）')) return
     try {
       // 呼叫 DELETE 路由

@@ -318,3 +318,8 @@
     }
   }
 </style>
+
+<route lang="yaml">
+meta:
+  title: '製茶之旅'
+</route>

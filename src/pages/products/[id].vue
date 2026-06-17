@@ -122,14 +122,17 @@
           <div class="text-body-2 text-grey">您選擇了 {{ quantity }} 份 {{ product?.name }}</div>
         </v-card-text>
         <v-card-actions class="justify-center pb-6">
-          <v-btn color="grey" rounded="pill" variant="text" @click="showConfirmDialog = false">取消</v-btn>
+          <v-btn color="grey" rounded="pill" variant="text" @click="showConfirmDialog = false"
+            >取消</v-btn
+          >
           <v-btn
             class="px-6"
             color="brown-darken-2"
             rounded="pill"
             variant="flat"
             @click="confirmAdd"
-          >確定</v-btn>
+            >確定</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -137,75 +140,30 @@
 </template>
 
 <script setup>
-  import { computed, inject, onMounted, ref } from 'vue'
-  import { useRoute } from 'vue-router'
+  // 當 product 載入後，若無庫存將數量設為 0
+  // 原本寫在 fetchProduct 裡，現在改用 watch 監聽
+  import { computed, inject, onMounted, ref, watch } from 'vue'
   import { useDisplay } from 'vuetify'
-  import api from '@/composables/api'
+  import { useProductDetail } from '@/composables/useProduct'
+
   import { useCartStore } from '@/stores/cartStore'
 
-  const route = useRoute()
   const cartStore = useCartStore()
   const { mobile } = useDisplay()
-
   const showSnackbar = inject('showSnackbar')
   const showRequireLogin = inject('showRequireLogin')
 
-  const product = ref(null)
+  const { product, loading, stockStatus, fetchProduct, getImageUrl, getCategoryColor } =
+    useProductDetail()
+
   const quantity = ref(1)
   const showConfirmDialog = ref(false)
   const isSubmitting = ref(false)
 
   const imgHeight = computed(() => (mobile.value ? 320 : 550))
-
-  // 💡 核心邏輯：計算庫存狀態文字、顏色與圖示
-  const stockStatus = computed(() => {
-    if (!product.value) return { text: '載入中', color: 'grey', icon: 'mdi-dots-horizontal' }
-
-    const stock = product.value.stock
-    if (stock <= 0) {
-      return { text: '目前缺貨', color: 'red-darken-1', icon: 'mdi-alert-circle' }
-    } else if (stock < 10) {
-      return { text: `限量供應 (剩餘 ${stock})`, color: 'orange-darken-2', icon: 'mdi-clock-fast' }
-    } else {
-      return { text: `庫存充足 (剩餘 ${stock})`, color: 'green-darken-1', icon: 'mdi-check-circle' }
-    }
+  watch(product, (val) => {
+    if (val && val.stock <= 0) quantity.value = 0
   })
-
-  const colorMap = {
-    '綠茶': 'green-darken-3',
-    '白茶': 'blue-grey-darken-1',
-    '黃茶': 'orange-darken-1',
-    '青茶(烏龍茶)': 'teal-darken-2',
-    '紅茶': 'red-darken-4',
-    '黑茶(普洱茶)': 'brown-darken-4',
-  }
-
-  const getCategoryColor = category => colorMap[category] || 'brown-darken-3'
-
-  const getImageUrl = image => {
-    if (!image) return 'https://via.placeholder.com/500'
-    if (image.startsWith('http')) return image
-    // return `http://localhost:5000/${image}`
-    return `${import.meta.env.VITE_API_URL}/${image}`
-  }
-
-  const fetchProduct = async () => {
-    try {
-      const id = route.params.id
-      const response = await api.get(`/products/${id}`)
-      if (response.data?.success) {
-        product.value = response.data.data
-        // 💡 如果沒庫存，初始數量設為 0
-        if (product.value.stock <= 0) {
-          quantity.value = 0
-        }
-      }
-    } catch {
-      showSnackbar?.('載入失敗', 'error')
-    }
-  }
-
-  onMounted(fetchProduct)
 
   const handleAddToCart = () => {
     if (!product.value || quantity.value < 1) return
@@ -229,6 +187,8 @@
       isSubmitting.value = false
     }
   }
+
+  onMounted(fetchProduct)
 </script>
 
 <style scoped>
@@ -270,3 +230,8 @@
     transition: all 0.3s ease;
   }
 </style>
+
+<route lang="yaml">
+meta:
+  title: '選物詳情'
+</route>

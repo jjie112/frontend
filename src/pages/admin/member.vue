@@ -34,8 +34,7 @@
         icon="mdi-filter-variant"
         variant="tonal"
       >
-        關鍵字搜尋：「<strong>{{ search }}</strong
-        >」，共找到 <strong>{{ filteredUsers.length }}</strong> 位會員。
+        關鍵字搜尋：「<strong>{{ search }}</strong>」，共找到 <strong>{{ filteredUsers.length }}</strong> 位會員。
       </v-alert>
     </v-expand-transition>
 
@@ -111,7 +110,7 @@
 
 <script setup>
   import { computed, inject, onMounted, ref } from 'vue'
-  import api from '@/composables/api'
+  import api from '@/api/instance'
 
   const showSnackbar = inject('showSnackbar')
   const users = ref([])
@@ -131,12 +130,12 @@
   const filteredUsers = computed(() => {
     if (!search.value) return users.value
     const query = search.value.toLowerCase()
-    return users.value.filter((user) => {
+    return users.value.filter(user => {
       return user.account.toLowerCase().includes(query) || user.email.toLowerCase().includes(query)
     })
   })
 
-  const formatDate = (dateStr) => {
+  const formatDate = dateStr => {
     const date = new Date(dateStr)
     return date.toLocaleString('zh-TW', {
       year: 'numeric',

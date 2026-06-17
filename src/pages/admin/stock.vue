@@ -39,8 +39,7 @@
         icon="mdi-filter-variant"
         variant="tonal"
       >
-        關鍵字搜尋：「<strong>{{ search }}</strong
-        >」，共找到 <strong>{{ filteredProducts.length }}</strong> 件商品。
+        關鍵字搜尋：「<strong>{{ search }}</strong>」，共找到 <strong>{{ filteredProducts.length }}</strong> 件商品。
       </v-alert>
     </v-expand-transition>
 
@@ -183,7 +182,7 @@
 <script setup>
   import { computed, inject, onMounted, ref } from 'vue'
   import { useRouter } from 'vue-router'
-  import api from '@/composables/api'
+  import api from '@/api/instance'
 
   const router = useRouter()
   const products = ref([])
@@ -203,18 +202,18 @@
     { title: '快速調整', key: 'actions', align: 'center', sortable: false },
   ]
 
-  const getImageUrl = (image) => {
+  const getImageUrl = image => {
     if (!image) return 'https://via.placeholder.com/150'
     return image.startsWith('http') ? image : `${import.meta.env.VITE_API_URL}/${image}`
   }
 
-  const getCategoryColor = (category) => {
+  const getCategoryColor = category => {
     const colorMap = {
-      綠茶: 'green-darken-2',
-      白茶: 'blue-grey-darken-1',
-      黃茶: 'orange-darken-1',
+      '綠茶': 'green-darken-2',
+      '白茶': 'blue-grey-darken-1',
+      '黃茶': 'orange-darken-1',
       '青茶(烏龍茶)': 'teal-darken-3',
-      紅茶: 'red-darken-3',
+      '紅茶': 'red-darken-3',
       '黑茶(普洱茶)': 'grey-darken-4',
     }
     return colorMap[category] || 'brown-darken-2'
@@ -236,11 +235,11 @@
     if (!search.value) return products.value
     const query = search.value.toLowerCase()
     return products.value.filter(
-      (p) => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query),
+      p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query),
     )
   })
 
-  const openEditDialog = (product) => {
+  const openEditDialog = product => {
     editingProduct.value = { ...product }
     dialog.value = true
   }
@@ -260,7 +259,7 @@
     }
   }
 
-  const toggleStatus = async (product) => {
+  const toggleStatus = async product => {
     product.loadingStatus = true
     try {
       await api.patch(`/products/${product._id}`, {

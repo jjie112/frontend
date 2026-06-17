@@ -149,86 +149,27 @@
 </template>
 
 <script setup>
-  import { computed, inject, onMounted, ref, watch } from 'vue'
-  import { useRoute } from 'vue-router'
-  import api from '@/composables/api'
+  import { inject, onMounted } from 'vue'
+  import { useProductList } from '@/composables/useProduct'
   import { useCartStore } from '@/stores/cartStore'
 
-  const products = ref([])
-  const selectedCategory = ref('全部')
-  const searchQuery = ref('')
-  const categories = ['全部', '綠茶', '白茶', '黃茶', '青茶(烏龍茶)', '紅茶', '黑茶(普洱茶)']
-  const route = useRoute()
   const cartStore = useCartStore()
-  const currentPage = ref(1)
-  const itemsPerPage = 9
-
   const showSnackbar = inject('showSnackbar')
   const showRequireLogin = inject('showRequireLogin')
 
-  // 監聽路由搜尋參數 (例如首頁搜尋跳轉過來)
-  watch(
-    () => route.query.q,
-    newVal => {
-      if (newVal !== searchQuery.value) {
-        searchQuery.value = newVal || ''
-      }
-    },
-    { immediate: true },
-  )
+  const {
+    selectedCategory,
+    searchQuery,
+    currentPage,
+    categories,
+    displayProducts,
+    totalPages,
+    fetchProducts,
+    getImageUrl,
+    getCategoryColor,
+  } = useProductList()
 
-  // 關鍵新增：定義清空搜尋函數
-  const clearSearch = () => {
-    searchQuery.value = ''
-  }
-
-  // 監聽分類切換（當分類值改變時清空）
-  watch(selectedCategory, () => {
-    clearSearch()
-  })
-
-  // 監聽搜尋或分類變動，重置回第 1 頁
-  watch([searchQuery, selectedCategory], () => {
-    currentPage.value = 1
-  })
-
-  // 取得商品列表
-  const fetchProducts = async () => {
-    try {
-      const response = await api.get('/products')
-      if (response.data?.success) {
-        products.value = response.data.data || []
-      }
-    } catch (error) {
-      console.error('取得商品列表失敗:', error)
-    }
-  }
-
-  // 依照分類和搜尋條件過濾商品
-  const filteredProducts = computed(() => {
-    return products.value.filter(p => {
-      const matchCategory = selectedCategory.value === '全部' || p.category === selectedCategory.value
-      const matchSearch = p.name.toLowerCase().includes(searchQuery.value.toLowerCase())
-      return matchCategory && matchSearch
-    })
-  })
-
-  // 分頁切割
-  const displayProducts = computed(() => {
-    const start = (currentPage.value - 1) * itemsPerPage
-    return filteredProducts.value.slice(start, start + itemsPerPage)
-  })
-
-  const totalPages = computed(() => Math.ceil(filteredProducts.value.length / itemsPerPage))
-
-  const getImageUrl = image => {
-    if (!image) return 'https://via.placeholder.com/300'
-    if (image.startsWith('http')) return image
-    // return `${import.meta.env.VITE_API_BASE}/${image}`
-    return `${import.meta.env.VITE_API_URL}/${image}`
-  }
-
-  const addToCart = async product => {
+  const addToCart = async (product) => {
     try {
       await cartStore.updateCart(product._id, 1)
       showSnackbar?.(`已將「${product.name}」加入購物車`, 'success')
@@ -241,17 +182,9 @@
     }
   }
 
-  const colorMap = {
-    '綠茶': 'green-darken-3',
-    '白茶': 'blue-grey-darken-1',
-    '黃茶': 'orange-darken-1',
-    '青茶(烏龍茶)': 'teal-darken-2',
-    '紅茶': 'red-darken-4',
-    '黑茶(普洱茶)': 'brown-darken-4',
-  }
-
-  const getCategoryColor = category => {
-    return colorMap[category] || 'brown-darken-3'
+  // 分類 tab 點擊時清空搜尋（template 的 @click="clearSearch" 改成這裡）
+  const clearSearch = () => {
+    searchQuery.value = ''
   }
 
   onMounted(fetchProducts)
@@ -288,7 +221,8 @@
 
   /* 圖片容器優化 */
   .product-img-container {
-    border-radius: 16px 16px 0 0; /* 僅上方圓角 */
+    border-radius: 16px 16px 0 0;
+    /* 僅上方圓角 */
   }
 
   .product-img {
@@ -322,3 +256,8 @@
     letter-spacing: 0;
   }
 </style>
+
+<route lang="yaml">
+meta:
+  title: '茶事選物'
+</route>

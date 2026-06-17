@@ -17,7 +17,8 @@
             泡茶，從來不是單純的加熱與浸泡，而是與茶葉的一場靜默對話。<br />
             水溫決定香氣，時間掌握平衡。
             <span class="text-brown-darken-2 font-weight-bold">
-              用溫度，泡出一杯屬於自己的溫柔。</span>
+              用溫度，泡出一杯屬於自己的溫柔。</span
+            >
           </div>
         </v-card>
       </v-col>
@@ -228,3 +229,8 @@
     border-radius: 0 0 16px 16px;
   }
 </style>
+
+<route lang="yaml">
+meta:
+  title: '泡茶心法'
+</route>

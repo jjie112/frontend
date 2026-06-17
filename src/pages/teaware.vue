@@ -168,3 +168,8 @@
     }
   }
 </style>
+
+<route lang="yaml">
+meta:
+  title: '茶器賞析'
+</route>

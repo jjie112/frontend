@@ -53,7 +53,9 @@
               </div>
 
               <div class="d-flex align-start mb-4">
-                <v-icon class="me-2 mt-1" color="brown-lighten-1" size="small">mdi-hammer-wrench</v-icon>
+                <v-icon class="me-2 mt-1" color="brown-lighten-1" size="small"
+                  >mdi-hammer-wrench</v-icon
+                >
                 <span class="text-body-2 text-grey-darken-2 flex-grow-1 leading-normal">
                   {{ tea.process }}
                 </span>
@@ -297,3 +299,8 @@
     line-height: 2 !important;
   }
 </style>
+
+<route lang="yaml">
+meta:
+  title: '六色茶韻'
+</route>

@@ -129,11 +129,11 @@
 
 <script setup>
   import { inject, onMounted, ref } from 'vue'
-  import { useRouter } from 'vue-router' // 💡 引入 useRouter
-  import api from '@/composables/api'
+  import { useRouter } from 'vue-router' // 引入 useRouter
+  import api from '@/api/instance'
   import { useCartStore } from '@/stores/cartStore'
 
-  const router = useRouter() // 💡 初始化
+  const router = useRouter() // 初始化
   const cartStore = useCartStore()
   const showSnackbar = inject('showSnackbar') // 注入全域通知函式
   const isUpdating = ref(false) // 全域更新狀態，防止連續點擊造成的 API 衝突

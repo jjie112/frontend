@@ -122,7 +122,7 @@
 <script setup>
   import { reactive, ref } from 'vue'
   import { useRouter } from 'vue-router'
-  import api from '@/composables/api'
+  import api from '@/api/instance'
 
   const router = useRouter()
   const loading = ref(false)

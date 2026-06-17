@@ -5,6 +5,7 @@ const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 })
 
+// 請求攔截器：自動附加 JWT Token
 api.interceptors.request.use(
   config => {
     const userStore = useUserStore()
@@ -16,6 +17,7 @@ api.interceptors.request.use(
   error => Promise.reject(error),
 )
 
+// 響應攔截器：自動處理 401 錯誤並嘗試續期
 api.interceptors.response.use(
   res => res,
   async error => {

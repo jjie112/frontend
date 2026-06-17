@@ -111,10 +111,11 @@
 </template>
 
 <script setup>
-  import { inject, onMounted, ref } from 'vue'
-  import api from '@/composables/api'
+  // import { inject, onMounted, ref } from 'vue'
+  import { onMounted, ref } from 'vue'
+  import api from '@/api/instance'
 
-  const showSnackbar = inject('showSnackbar')
+  // const showSnackbar = inject('showSnackbar')
   const orders = ref([])
   const loading = ref(true)
 
@@ -173,7 +174,7 @@
     try {
       loading.value = true
 
-      // 建議寫法：直接解構出 data 並重新命名
+      // 直接解構出 data 並重新命名
       const [resOrders, resUsers, resProducts] = await Promise.all([
         api.get('/orders/all'),
         api.get('/users/all'),
