@@ -127,7 +127,7 @@
   import { inject, ref, watch } from 'vue'
   import { useRouter } from 'vue-router'
   import { useCartStore } from '@/stores/cartStore'
-  import { useUserStore } from '@/stores/user'
+  import { useUserStore } from '@/stores/userStore.js'
   import UserStatusDialog from './UserStatusDialog.vue'
 
   const userStore = useUserStore()

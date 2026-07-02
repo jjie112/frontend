@@ -1,79 +1,29 @@
-# Vuetify (Default)
+# 🍵 緩慢茶事 - 茶葉電商網站
 
-This is the official scaffolding tool for Vuetify, designed to give you a head start in building your new Vuetify application. It sets up a base template with all the necessary configurations and standard directory structure, enabling you to begin development without the hassle of setting up the project from scratch.
+靜心聆聽，一葉乾坤。「緩慢茶事」是一個以茶文化推廣為核心的現代化電商網站。我們深知茶道的深奧常讓人望而卻步，因此專案初衷旨在打破門檻——從最初的山林採摘、繁複工藝，到最後的靜心沖泡，以深入淺出的方式，帶領茶道初學者一步步揭開茶葉的神秘面紗。
 
-## ❗️ Important Links
+本平台完美融合了「茶學知識科普」與「嚴選商品展售」，讓每一位造訪的顧客不僅能汲取豐富的茶文化底蘊，更能輕鬆選購來自各地的時令好茶，在快節奏的生活中，與我們一同共享一段緩慢的品茗時光。
 
-- 📄 [Docs](https://vuetifyjs.com/)
-- 🚨 [Issues](https://issues.vuetifyjs.com/)
-- 🏬 [Store](https://store.vuetifyjs.com/)
-- 🎮 [Playground](https://play.vuetifyjs.com/)
-- 💬 [Discord](https://community.vuetifyjs.com)
+## 🗂️ 內容
 
-## 💿 Install
+### 🖥️ 頁面展示
 
-Set up your project using your preferred package manager. Use the corresponding command to install the dependencies:
+- 📜 **茶文化**: 茶的起源歷史與深厚底蘊。
+- 🍃 **茶葉種類**: 說明不同茶種（如烏龍茶、紅茶、綠茶）的風味特徵。
+- 🛠️ **製茶工藝**: 從新鮮採茶到成品之間的繁複程序。
+- 🍵 **泡茶茶具**: 精準的泡茶溫度建議與專業茶具使用指南。
+- 🛍️ **商品專區**: 精美茶葉產品展示與直覺的購買流程。
+- 🛒 **購物車與結帳**: 直覺的購物車操作，支援優惠碼折扣與多種金流結帳方式。
+- 👤 **會員系統**: 註冊/登入功能，提供完整的歷史訂單查詢與個人化服務。
 
-| Package Manager                                                | Command        |
-|---------------------------------------------------------------|----------------|
-| [yarn](https://yarnpkg.com/getting-started)                   | `yarn install` |
-| [npm](https://docs.npmjs.com/cli/v7/commands/npm-install)     | `npm install`  |
-| [pnpm](https://pnpm.io/installation)                          | `pnpm install` |
-| [bun](https://bun.sh/#getting-started)                        | `bun install`  |
+### 🛠️ 技術
 
-After completing the installation, your environment is ready for Vuetify development.
+- 🖼️ **現代前端框架**: 使用 [Vue 3](https://v3.vuejs.org/) 與 [Vuetify 3](https://vuetifyjs.com/en/)，打造快速且美觀的 UI 組件。
+- 🗃️ **狀態管理**: 整合 [Pinia](https://pinia.vuejs.org/)，輕鬆管理全域狀態（如購物車、使用者登入狀態）。
+- 🚦 **路由與佈局**: 使用 Vue Router 進行 SPA 導覽，並透過 `vite-plugin-vue-layouts` 管理頁面佈局。
+- ⚡ **次世代開發工具**: 由 [Vite](https://vitejs.dev/) 驅動，享受極速的冷啟動與熱更新 (HMR)。
+- 🧩 **自動引入組件**: 透過 `unplugin-vue-components` 自動引入所需組件，保持程式碼簡潔。
 
-## ✨ Features
+## 🔗 作品呈現
 
-- 🖼️ **Optimized Front-End Stack**: Leverage the latest Vue 3 and Vuetify 3 for a modern, reactive UI development experience. [Vue 3](https://v3.vuejs.org/) | [Vuetify 3](https://vuetifyjs.com/en/)
-- 🗃️ **State Management**: Integrated with [Pinia](https://pinia.vuejs.org/), the intuitive, modular state management solution for Vue.
-- 🚦 **Routing and Layouts**: Utilizes Vue Router for SPA navigation and vite-plugin-vue-layouts for organizing Vue file layouts. [Vue Router](https://router.vuejs.org/) | [vite-plugin-vue-layouts](https://github.com/JohnCampionJr/vite-plugin-vue-layouts)
-- ⚡ **Next-Gen Tooling**: Powered by Vite, experience fast cold starts and instant HMR (Hot Module Replacement). [Vite](https://vitejs.dev/)
-- 🧩 **Automated Component Importing**: Streamline your workflow with unplugin-vue-components, automatically importing components as you use them. [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components)
-
-These features are curated to provide a seamless development experience from setup to deployment, ensuring that your Vuetify application is both powerful and maintainable.
-
-## 💡 Usage
-
-This section covers how to start the development server and build your project for production.
-
-### Starting the Development Server
-
-To start the development server with hot-reload, run the following command. The server will be accessible at [http://localhost:3000](http://localhost:3000):
-
-```bash
-yarn dev
-```
-
-(Repeat for npm, pnpm, and bun with respective commands.)
-
-> Add NODE_OPTIONS='--no-warnings' to suppress the JSON import warnings that happen as part of the Vuetify import mapping. If you are on Node [v21.3.0](https://nodejs.org/en/blog/release/v21.3.0) or higher, you can change this to NODE_OPTIONS='--disable-warning=5401'. If you don't mind the warning, you can remove this from your package.json dev script.
-
-### Building for Production
-
-To build your project for production, use:
-
-```bash
-yarn build
-```
-
-(Repeat for npm, pnpm, and bun with respective commands.)
-
-Once the build process is completed, your application will be ready for deployment in a production environment.
-
-## 💪 Support Vuetify Development
-
-This project is built with [Vuetify](https://vuetifyjs.com/en/), a UI Library with a comprehensive collection of Vue components. Vuetify is an MIT licensed Open Source project that has been made possible due to the generous contributions by our [sponsors and backers](https://vuetifyjs.com/introduction/sponsors-and-backers/). If you are interested in supporting this project, please consider:
-
-- [Requesting Enterprise Support](https://support.vuetifyjs.com/)
-- [Sponsoring John on Github](https://github.com/users/johnleider/sponsorship)
-- [Sponsoring Kael on Github](https://github.com/users/kaelwd/sponsorship)
-- [Supporting the team on Open Collective](https://opencollective.com/vuetify)
-- [Becoming a sponsor on Patreon](https://www.patreon.com/vuetify)
-- [Becoming a subscriber on Tidelift](https://tidelift.com/subscription/npm/vuetify)
-- [Making a one-time donation with Paypal](https://paypal.me/vuetify)
-
-## 📑 License
-[MIT](http://opensource.org/licenses/MIT)
-
-Copyright (c) 2016-present Vuetify, LLC
+https://jjie112.github.io/frontend/

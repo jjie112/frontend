@@ -92,7 +92,7 @@
   import { ref } from 'vue'
   import { useRoute, useRouter } from 'vue-router'
   import api from '@/api/instance'
-  import { useUserStore } from '@/stores/user'
+  import { useUserStore } from '@/stores/userStore'
 
   const userStore = useUserStore()
   const router = useRouter()

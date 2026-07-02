@@ -112,7 +112,7 @@
   import { reactive } from 'vue'
   import { useRouter } from 'vue-router'
   import { useCartStore } from '@/stores/cartStore'
-  import { useUserStore } from '@/stores/user'
+  import { useUserStore } from '@/stores/userStore'
 
   // 定義組件接收的 props 和內部狀態
   const props = defineProps(['activator'])

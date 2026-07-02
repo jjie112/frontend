@@ -11,6 +11,6 @@ import pinia from '@/stores'
 import vuetify from './vuetify'
 
 // registerPlugins 註冊插件
-export function registerPlugins(app) {
-  app.use(vuetify).use(VuetifyUseDialog).use(router).use(pinia)
+export function registerPlugins (app) {
+  app.use(vuetify).use(VuetifyUseDialog).use(pinia).use(router)
 }

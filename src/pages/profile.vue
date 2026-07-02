@@ -31,11 +31,7 @@
           <v-divider></v-divider>
           <v-card-actions class="pa-4">
             <v-spacer></v-spacer>
-            <v-btn
-              prepend-icon="mdi-undo"
-              variant="text"
-              @click="router.back()"
-            >
+            <v-btn prepend-icon="mdi-undo" variant="text" @click="router.back()">
               返回上一頁
             </v-btn>
           </v-card-actions>
@@ -47,7 +43,7 @@
 
 <script setup>
   import { useRouter } from 'vue-router'
-  import { useUserStore } from '@/stores/user'
+  import { useUserStore } from '@/stores/userStore'
 
   const userStore = useUserStore()
   const router = useRouter() // 初始化 router

@@ -4,7 +4,7 @@
 import { setupLayouts } from 'virtual:generated-layouts'
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { routes } from 'vue-router/auto-routes'
-import { useUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores/userStore'
 
 // 這裡的 router 是 Vue Router 的實例，會在 main.js 中被掛載到 Vue app 上
 const router = createRouter({
@@ -52,7 +52,8 @@ router.beforeEach(async (to, from, next) => {
 // 錯誤處理
 router.onError((err, to) => {
   if (
-    err?.message?.includes?.('Failed to fetch dynamically imported module') && !localStorage.getItem('vuetify:dynamic-reload')
+    err?.message?.includes?.('Failed to fetch dynamically imported module') &&
+    !localStorage.getItem('vuetify:dynamic-reload')
   ) {
     localStorage.setItem('vuetify:dynamic-reload', 'true')
     location.assign(to.fullPath)

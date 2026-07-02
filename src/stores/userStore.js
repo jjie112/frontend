@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import api from '@/api/instance'
 import { useCartStore } from '@/stores/cartStore'
 
+// 這個 store 負責管理使用者的登入狀態、角色、以及相關資訊
 export const useUserStore = defineStore(
   'user',
   () => {
@@ -13,7 +14,7 @@ export const useUserStore = defineStore(
     const role = ref('user') // 角色：user | admin
     const token = ref('') // JWT Token（登入憑證）
 
-    // Getters (計算屬性)
+    // Getters (計算屬性) (有快取功能)
     // 是否已登入（依據 token 是否存在判斷）
     const isLoggedIn = computed(() => {
       return token.value.length > 0
@@ -21,8 +22,8 @@ export const useUserStore = defineStore(
     // 是否為管理員
     const isAdmin = computed(() => role.value === 'admin')
 
-    // Actions (行為/方法)
-    // 使用者登入 ; @param {Object} userData - 後端回傳的使用者資料
+    // Actions (行為/方法) (同步/非同步通通寫在這裡)
+    // 使用者登入，並更新 store 的狀態；這裡的 userData 會包含使用者資訊以及 JWT token
     const login = (userData) => {
       _id.value = userData.user.id
       account.value = userData.user.account
@@ -48,12 +49,12 @@ export const useUserStore = defineStore(
         token.value = ''
 
         // 清空購物車
-        const cartStore = useCartStore()
-        cartStore.cartItems = []
+        const cartStore = useCartStore() // 取得購物車 store 實例
+        cartStore.cartItems = [] // 清空購物車項目
       }
     }
 
-    // Return（暴露給外部使用的資料與方法）
+    // Return（給外部使用的資料與方法）
     return {
       token,
       _id,

@@ -130,11 +130,11 @@
 <script setup>
   import { inject, onMounted, ref } from 'vue'
   import { useRouter } from 'vue-router' // 引入 useRouter
-  import api from '@/api/instance'
+  // import api from '@/api/instance'
   import { useCartStore } from '@/stores/cartStore'
 
-  const router = useRouter() // 初始化
-  const cartStore = useCartStore()
+  const router = useRouter() // 使用 useRouter 取得 router 實例
+  const cartStore = useCartStore() // 使用 Pinia 的購物車 store
   const showSnackbar = inject('showSnackbar') // 注入全域通知函式
   const isUpdating = ref(false) // 全域更新狀態，防止連續點擊造成的 API 衝突
 
@@ -177,35 +177,53 @@
     }
   }
 
-  // 結帳處理
+  // 處理結帳
+  // const handleCheckout = async () => {
+  //   if (isUpdating.value) return
+  //   if (cartStore.cartItems.length === 0) return
+
+  //   // 1. 二次確認
+  //   if (!confirm('確定要提交訂單並結帳嗎？')) return
+
+  //   isUpdating.value = true
+  //   try {
+  //     // 2. 呼叫後端 API 建立訂單
+  //     // 注意：根據 index.js，你的路徑可能是 /api/orders 或 /orders
+  //     // 如果你在 index.js 寫 app.use('/api/orders', orderRoute)，這裡就打 /orders (因為 api composable 通常有 baseURL)
+  //     const { data } = await api.post('/orders')
+
+  //     if (data.success) {
+  //       showSnackbar?.('訂單已成功建立！🍵', 'success')
+
+  //       // 3. 清空 Pinia Store 裡的購物車狀態（避免回到購物車還看到舊資料）
+  //       await cartStore.fetchCart()
+
+  //       // 4. 跳轉至訂單頁面 (注意檔案名稱，如果是 order.vue 則跳轉到 /order)
+  //       router.push('/orders')
+  //     }
+  //   } catch (error) {
+  //     console.error('結帳失敗:', error)
+  //     const msg = error.response?.data?.message || '結帳失敗，請稍後再試'
+  //     showSnackbar?.(msg, 'error')
+  //   } finally {
+  //     isUpdating.value = false
+  //   }
+  // }
+
+  // 改用 Pinia store 的 checkout 方法來處理結帳
   const handleCheckout = async () => {
-    if (isUpdating.value) return
-    if (cartStore.cartItems.length === 0) return
-
-    // 1. 二次確認
-    if (!confirm('確定要提交訂單並結帳嗎？')) return
-
+    if (!confirm('確定要提交訂單嗎？')) return
+    // 防止重複點擊
     isUpdating.value = true
+
     try {
-      // 💡 2. 呼叫後端 API 建立訂單
-      // 注意：根據 index.js，你的路徑可能是 /api/orders 或 /orders
-      // 如果你在 index.js 寫 app.use('/api/orders', orderRoute)，這裡就打 /orders (因為 api composable 通常有 baseURL)
-      const { data } = await api.post('/orders')
-
-      if (data.success) {
-        showSnackbar?.('訂單已成功建立！🍵', 'success')
-
-        // 3. 清空 Pinia Store 裡的購物車狀態（避免回到購物車還看到舊資料）
-        await cartStore.fetchCart()
-
-        // 4. 跳轉至訂單頁面 (注意檔案名稱，如果是 order.vue 則跳轉到 /order)
-        router.push('/orders')
-      }
+      await cartStore.checkout() // 呼叫 Pinia store 的 checkout 方法
+      showSnackbar?.('訂單已成功建立！🍵', 'success')
+      router.push('/orders')
     } catch (error) {
-      console.error('結帳失敗:', error)
-      const msg = error.response?.data?.message || '結帳失敗，請稍後再試'
-      showSnackbar?.(msg, 'error')
+      showSnackbar?.(error.message, 'error')
     } finally {
+      // 無論成功或失敗，都要重置 isUpdating 狀態
       isUpdating.value = false
     }
   }

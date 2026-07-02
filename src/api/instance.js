@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores/userStore'
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -7,27 +7,28 @@ const api = axios.create({
 
 // 請求攔截器：自動附加 JWT Token
 api.interceptors.request.use(
-  config => {
+  (config) => {
     const userStore = useUserStore()
     if (userStore.token) {
       config.headers.Authorization = `Bearer ${userStore.token}`
     }
     return config
   },
-  error => Promise.reject(error),
+  (error) => Promise.reject(error),
 )
 
 // 響應攔截器：自動處理 401 錯誤並嘗試續期
 api.interceptors.response.use(
-  res => res,
-  async error => {
+  (res) => res,
+  async (error) => {
     const userStore = useUserStore()
 
     if (error.response && error.response.status === 401) {
       // 使用 includes 判斷，避免路徑前綴 (如 /api) 造成的比對失敗
       // 且統一使用 /users/ (複數) 以對應後端路由
       if (
-        error.config.url.includes('/users/extend') || error.config.url.includes('/users/profile')
+        error.config.url.includes('/users/extend') ||
+        error.config.url.includes('/users/profile')
       ) {
         userStore.logout()
         throw error
