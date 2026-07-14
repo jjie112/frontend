@@ -49,7 +49,7 @@
             NT$ {{ product.price?.toLocaleString() }}
           </div>
 
-          <v-spacer></v-spacer>
+          <v-spacer />
 
           <v-chip class="font-weight-bold" :color="stockStatus.color" size="small" variant="tonal">
             <v-icon size="small" start>{{ stockStatus.icon }}</v-icon>

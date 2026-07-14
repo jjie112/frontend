@@ -68,16 +68,12 @@
                 {{ product.category }}
               </v-chip>
 
-              <v-overlay
+              <div
                 v-if="product.stock <= 0"
-                class="align-center justify-center"
-                contained
-                model-value
-                persistent
-                scrim="grey-darken-4"
+                class="sold-out-overlay d-flex align-center justify-center"
               >
                 <div class="sold-out-tag">SOLD OUT</div>
-              </v-overlay>
+              </div>
 
               <template #placeholder>
                 <v-row align="center" class="fill-height ma-0" justify="center">
@@ -144,6 +140,7 @@
       color="brown-darken-2"
       :length="totalPages"
       rounded="circle"
+      @update:model-value="onPageChange"
     ></v-pagination>
   </v-container>
 </template>
@@ -180,6 +177,12 @@
         showSnackbar?.(error.message || '加入失敗', 'error')
       }
     }
+  }
+
+  // 分頁切換時，將頁面瞬間到頂部
+  const onPageChange = () => {
+    document.activeElement?.blur()
+    window.scrollTo({ top: 0, behavior: 'auto' }) // 或直接 window.scrollTo(0, 0)
   }
 
   // 分類 tab 點擊時清空搜尋（template 的 @click="clearSearch" 改成這裡）
@@ -254,6 +257,13 @@
   .category-tabs :deep(.v-tab) {
     text-transform: none;
     letter-spacing: 0;
+  }
+
+  .sold-out-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(66, 66, 66, 0.7); /* 對應原本 grey-darken-4 的深灰遮罩 */
+    z-index: 2;
   }
 </style>
 

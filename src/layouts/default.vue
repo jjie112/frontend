@@ -1,47 +1,44 @@
 <template>
-  <v-app>
-    <AppHeader />
+  <AppHeader />
 
-    <v-main>
-      <!-- <router-view /> -->
-      <slot />
-    </v-main>
+  <v-main>
+    <slot />
+  </v-main>
 
-    <!-- 全域 Snackbar（放在這裡讓所有頁面都能看到） -->
-    <v-snackbar
-      v-model="snackbar.show"
-      centered
-      :color="snackbar.color"
-      elevation="24"
-      location="top"
-      multi-line
-      :timeout="snackbar.timeout"
-    >
-      {{ snackbar.message }}
+  <!-- 全域 Snackbar（放在這裡讓所有頁面都能看到） -->
+  <v-snackbar
+    v-model="snackbar.show"
+    centered
+    :color="snackbar.color"
+    elevation="24"
+    location="top"
+    multi-line
+    :timeout="snackbar.timeout"
+  >
+    {{ snackbar.message }}
 
-      <template #actions>
-        <v-btn v-if="snackbar.showLogin" color="white" variant="text" @click="goToLogin">
-          立即登入
-        </v-btn>
-        <v-btn color="white" variant="text" @click="snackbar.show = false"> 關閉 </v-btn>
-      </template>
-    </v-snackbar>
+    <template #actions>
+      <v-btn v-if="snackbar.showLogin" color="white" variant="text" @click="goToLogin">
+        立即登入
+      </v-btn>
+      <v-btn color="white" variant="text" @click="snackbar.show = false"> 關閉 </v-btn>
+    </template>
+  </v-snackbar>
 
-    <v-fab-transition>
-      <v-btn
-        v-show="showBackToTop"
-        v-scroll="onScroll"
-        class="back-to-top-btn"
-        color="teal-darken-2"
-        elevation="8"
-        icon="mdi-chevron-up"
-        size="large"
-        @click="scrollToTop"
-      ></v-btn>
-    </v-fab-transition>
+  <v-fab-transition>
+    <v-btn
+      v-show="showBackToTop"
+      v-scroll="onScroll"
+      class="back-to-top-btn"
+      color="teal-darken-2"
+      elevation="8"
+      icon="mdi-chevron-up"
+      size="large"
+      @click="scrollToTop"
+    ></v-btn>
+  </v-fab-transition>
 
-    <AppFooter />
-  </v-app>
+  <AppFooter />
 </template>
 
 <script setup>
@@ -112,12 +109,5 @@
     bottom: 30px;
     right: 30px;
     z-index: 99; /* 確保在最上層 */
-  }
-
-  body,
-  .v-application {
-    background-color: #F5F5DC !important;
-    /* 墨綠色 */
-    color: #2d3e33;
   }
 </style>

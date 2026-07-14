@@ -25,13 +25,7 @@
         </v-img>
       </div>
 
-      <v-overlay
-        class="align-center justify-center"
-        contained
-        :model-value="true"
-        opacity="0.4"
-        scrim="#2D3E33"
-      >
+      <div class="slide-scrim d-flex align-center justify-center">
         <div class="text-center slide-content">
           <h2 class="text-h2 font-weight-bold mb-4 slide-title font-serif">
             {{ slide.title }}
@@ -49,7 +43,7 @@
             探索詳情
           </v-btn>
         </div>
-      </v-overlay>
+      </div>
     </v-carousel-item>
   </v-carousel>
 </template>
@@ -196,5 +190,12 @@
     width: 50px;
     height: 50px;
     margin: 0 10px;
+  }
+
+  .slide-scrim {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(45, 62, 51, 0.4); /* 對應原本 scrim #2D3E33 + opacity 0.4 */
+    z-index: 3;
   }
 </style>

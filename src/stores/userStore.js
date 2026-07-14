@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import api from '@/api/instance'
-import { useCartStore } from '@/stores/cartStore'
 
 // 這個 store 負責管理使用者的登入狀態、角色、以及相關資訊
 export const useUserStore = defineStore(
@@ -12,14 +11,14 @@ export const useUserStore = defineStore(
     const account = ref('')
     const email = ref('')
     const role = ref('user') // 角色：user | admin
-    const token = ref('') // JWT Token（登入憑證）
+    const token = ref('')
 
     // Getters (計算屬性) (有快取功能)
     // 是否已登入（依據 token 是否存在判斷）
     const isLoggedIn = computed(() => {
       return token.value.length > 0
     })
-    // 是否為管理員
+
     const isAdmin = computed(() => role.value === 'admin')
 
     // Actions (行為/方法) (同步/非同步通通寫在這裡)
@@ -39,7 +38,6 @@ export const useUserStore = defineStore(
         await api.delete('/users/logout')
       } catch (error) {
         console.error('後端登出失敗:', error)
-        // 即使後端失敗，仍要清除前端狀態
       } finally {
         // 清空使用者狀態
         _id.value = ''
@@ -47,10 +45,6 @@ export const useUserStore = defineStore(
         email.value = ''
         role.value = 'user'
         token.value = ''
-
-        // 清空購物車
-        const cartStore = useCartStore() // 取得購物車 store 實例
-        cartStore.cartItems = [] // 清空購物車項目
       }
     }
 

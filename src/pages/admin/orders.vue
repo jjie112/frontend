@@ -33,7 +33,8 @@
         icon="mdi-filter-variant"
         variant="tonal"
       >
-        關鍵字搜尋：「<strong>{{ search }}</strong>」，共找到 <strong>{{ filteredItems.length }}</strong> 筆訂單。
+        關鍵字搜尋：「<strong>{{ search }}</strong
+        >」，共找到 <strong>{{ filteredItems.length }}</strong> 筆訂單。
       </v-alert>
     </v-expand-transition>
 
@@ -150,7 +151,9 @@
         >
           <div class="d-flex align-baseline">
             <span class="font-serif text-h6 mr-3">訂單詳細內容</span>
-            <span class="text-caption opacity-70 font-weight-regular">#{{ selectedOrder?._id.toUpperCase() }}</span>
+            <span class="text-caption opacity-70 font-weight-regular"
+              >#{{ selectedOrder?._id.toUpperCase() }}</span
+            >
           </div>
           <v-btn
             density="comfortable"
@@ -160,7 +163,7 @@
           ></v-btn>
         </v-card-title>
 
-        <v-divider></v-divider>
+        <v-divider />
 
         <v-card-text class="pa-0 scrollable-content" style="max-height: 500px">
           <v-data-table
@@ -201,7 +204,7 @@
           </v-data-table>
         </v-card-text>
 
-        <v-divider></v-divider>
+        <v-divider />
         <div class="bg-grey-lighten-5 px-8 py-4">
           <div class="d-flex justify-space-between align-end">
             <div>
@@ -220,7 +223,7 @@
         </div>
 
         <v-card-actions class="pa-4 border-t bg-white">
-          <v-spacer></v-spacer>
+          <v-spacer />
           <v-btn
             class="px-8 font-weight-bold"
             color="brown-darken-2"
@@ -253,22 +256,22 @@
     2: '已取消',
   }
 
-  const getImageUrl = image => {
+  const getImageUrl = (image) => {
     if (!image) return 'https://via.placeholder.com/150'
     if (image.startsWith('http')) return image
     return `${import.meta.env.VITE_API_URL}/${image}`
   }
 
-  const getCategoryColor = category => {
+  const getCategoryColor = (category) => {
     const colorMap = {
-      '綠茶': 'green-darken-2',
-      '白茶': 'blue-grey-darken-1',
-      '黃茶': 'orange-darken-1',
+      綠茶: 'green-darken-2',
+      白茶: 'blue-grey-darken-1',
+      黃茶: 'orange-darken-1',
       '青茶(烏龍茶)': 'teal-darken-3',
-      '青茶': 'teal-darken-3',
-      '紅茶': 'red-darken-3',
+      青茶: 'teal-darken-3',
+      紅茶: 'red-darken-3',
       '黑茶(普洱茶)': 'grey-darken-4',
-      '黑茶': 'grey-darken-4',
+      黑茶: 'grey-darken-4',
     }
     return colorMap[category] || 'brown-darken-2'
   }
@@ -276,9 +279,11 @@
   const filteredItems = computed(() => {
     if (!search.value) return allOrders.value
     const query = search.value.toLowerCase()
-    return allOrders.value.filter(item => {
+    return allOrders.value.filter((item) => {
       return (
-        item._id.toLowerCase().includes(query) || (item.u_id?.account && item.u_id.account.toLowerCase().includes(query)) || (item.u_id?.email && item.u_id.email.toLowerCase().includes(query))
+        item._id.toLowerCase().includes(query) ||
+        (item.u_id?.account && item.u_id.account.toLowerCase().includes(query)) ||
+        (item.u_id?.email && item.u_id.email.toLowerCase().includes(query))
       )
     })
   })
@@ -303,7 +308,7 @@
   const detailsDialog = ref(false)
   const selectedOrder = ref(null)
 
-  const openDetails = order => {
+  const openDetails = (order) => {
     selectedOrder.value = order
     detailsDialog.value = true
   }
@@ -334,7 +339,7 @@
     }
   }
 
-  const deleteOrder = async id => {
+  const deleteOrder = async (id) => {
     if (!confirm('警告：確定要永久刪除這筆訂單嗎？此操作無法還原。')) return
     try {
       const { data } = await api.delete(`/orders/admin/${id}`)
@@ -347,7 +352,7 @@
     }
   }
 
-  const getStatusColor = status => {
+  const getStatusColor = (status) => {
     if (status === 0) return 'orange-darken-3'
     if (status === 1) return 'green-darken-2'
     return 'grey-darken-1'

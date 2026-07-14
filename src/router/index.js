@@ -12,13 +12,21 @@ const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: setupLayouts(routes),
   scrollBehavior(to, from, savedPosition) {
-    return savedPosition || { top: 0 }
+    return savedPosition || { top: 0 } // 預設就是瞬間跳頂,不是 smooth
   },
 })
 
 // 這裡會在每次路由變更前被呼叫，可以用來檢查使用者是否有權限訪問某些頁面
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
+
+  // console.log('[nav]', {
+  //   // 這裡可以看到每次路由變更的詳細資訊，方便除錯
+  //   from: from.fullPath,
+  //   to: to.fullPath,
+  //   historyLength: window.history.length,
+  //   historyState: window.history.state,
+  // })
 
   // 更新標題
   document.title = to.meta.title ? `${to.meta.title} | 緩慢茶事` : '緩慢茶事'
@@ -48,6 +56,16 @@ router.beforeEach(async (to, from, next) => {
   // 若以上檢查都通過，放行
   next()
 })
+
+// // 這裡會在每次路由變更後被呼叫，可以用來做一些後續處理，例如記錄使用者行為、發送分析數據等
+// router.afterEach((to, from, failure) => {
+//   //
+//   if (failure) {
+//     console.log('[導航失敗] type:', failure.type)
+//     console.log('[導航失敗] message:', failure.message)
+//     console.log('[導航失敗] 完整物件:', failure)
+//   }
+// })
 
 // 錯誤處理
 router.onError((err, to) => {

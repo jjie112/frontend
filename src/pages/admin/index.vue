@@ -43,7 +43,7 @@
           <v-card-title class="font-weight-bold pa-6 d-flex align-center">
             <v-icon class="mr-2" color="green-darken-3">mdi-history</v-icon>
             最近 5 筆訂單
-            <v-spacer></v-spacer>
+            <v-spacer />
             <v-btn
               class="text-caption"
               color="green-darken-3"

@@ -22,7 +22,7 @@
           </v-list-item>
         </v-list>
 
-        <v-divider></v-divider>
+        <v-divider />
 
         <v-card-text class="pa-4 bg-grey-lighten-5">
           <p class="text-caption text-grey-darken-1 mb-4 px-2 d-flex align-center">
@@ -65,7 +65,7 @@
           </v-list>
         </v-card-text>
 
-        <v-divider></v-divider>
+        <v-divider />
 
         <v-card-actions class="pa-4 bg-white">
           <v-btn
@@ -77,7 +77,7 @@
           >
             關閉
           </v-btn>
-          <v-spacer></v-spacer>
+          <v-spacer />
           <v-btn
             class="px-6 font-weight-bold"
             color="red-lighten-1"
@@ -114,25 +114,26 @@
   import { useCartStore } from '@/stores/cartStore'
   import { useUserStore } from '@/stores/userStore'
 
-  // 定義組件接收的 props 和內部狀態
-  const props = defineProps(['activator'])
+  // const props = defineProps(['activator'])
+  const props = defineProps({ activator: { type: [String, Object], default: null } })
   const dialog = defineModel('dialog', { type: Boolean, default: false })
 
   const userStore = useUserStore()
   const cartStore = useCartStore()
   const router = useRouter()
 
+  // Snackbar 狀態管理
   const snackbar = reactive({
     show: false,
     text: '',
     color: 'success',
   })
 
-  // 處理登出邏輯
+  // 處理登出
   const handleLogout = async () => {
     try {
       await userStore.logout()
-      cartStore.cartItems = [] // 清空購物車
+      cartStore.clearCart() // 清空購物車
       dialog.value = false
 
       snackbar.text = '您已安全登出，期待下次與您品茗'
@@ -152,17 +153,14 @@
 </script>
 
 <style scoped>
-  /* 明體字 */
   .font-serif {
     font-family: 'Noto Serif TC', serif !important;
   }
 
-  /* 卡片邊框與陰影 */
   .border-card {
     border: 1px solid rgba(45, 62, 51, 0.05) !important;
   }
 
-  /* 選單項目的輕微陰影 */
   .shadow-sm {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
   }

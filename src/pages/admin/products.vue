@@ -3,7 +3,8 @@
     <v-row align="center" class="mb-8">
       <v-col cols="12" md="6">
         <h1 class="text-h4 font-weight-bold color-tea-green font-serif mb-2">
-          <v-icon class="mr-2" color="green-darken-3" icon="mdi-archive-cog-outline"></v-icon>商品管理系統
+          <v-icon class="mr-2" color="green-darken-3" icon="mdi-archive-cog-outline"></v-icon
+          >商品管理系統
         </h1>
         <p class="text-subtitle-2 text-grey-darken-1">策劃與編製每一款茶品的獨特故事</p>
       </v-col>
@@ -140,7 +141,7 @@
             ></v-btn>
           </v-card-title>
 
-          <v-divider></v-divider>
+          <v-divider />
 
           <v-card-text class="pa-8 scrollable-content" style="max-height: 600px">
             <v-row>
@@ -238,10 +239,10 @@
             </v-row>
           </v-card-text>
 
-          <v-divider></v-divider>
+          <v-divider />
 
           <v-card-actions class="pa-4 bg-grey-lighten-5">
-            <v-spacer></v-spacer>
+            <v-spacer />
             <v-btn class="px-6" variant="text" @click="dialog.open = false">捨棄變更</v-btn>
             <v-btn
               class="px-10 font-weight-bold"
@@ -272,13 +273,13 @@
   const categories = ['綠茶', '白茶', '黃茶', '青茶(烏龍茶)', '紅茶', '黑茶(普洱茶)']
 
   // 分類顏色映射
-  const getCategoryColor = category => {
+  const getCategoryColor = (category) => {
     const colorMap = {
-      '綠茶': 'green-darken-2',
-      '白茶': 'blue-grey-darken-1',
-      '黃茶': 'orange-darken-1',
+      綠茶: 'green-darken-2',
+      白茶: 'blue-grey-darken-1',
+      黃茶: 'orange-darken-1',
       '青茶(烏龍茶)': 'teal-darken-3',
-      '紅茶': 'red-darken-3',
+      紅茶: 'red-darken-3',
       '黑茶(普洱茶)': 'grey-darken-4',
     }
     return colorMap[category] || 'brown-darken-2'
@@ -289,7 +290,7 @@
     if (!search.value) return products.value
     const query = search.value.toLowerCase()
     return products.value.filter(
-      p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query),
+      (p) => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query),
     )
   })
 
@@ -386,12 +387,12 @@
     }
   }
 
-  const getImageUrl = image => {
+  const getImageUrl = (image) => {
     if (!image) return 'https://via.placeholder.com/150'
     return image.startsWith('http') ? image : `${import.meta.env.VITE_API_URL}/${image}`
   }
 
-  const deleteItem = async item => {
+  const deleteItem = async (item) => {
     if (!confirm(`確定要將「${item.name}」從系統移除嗎？此操作無法恢復。`)) return
     try {
       await api.delete(`/products/${item._id}`)

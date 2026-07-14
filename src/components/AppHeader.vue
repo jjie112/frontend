@@ -37,7 +37,7 @@
       <span class="d-flex align-center"> 🍵 <span class="ml-2">緩慢茶事</span> </span>
     </v-app-bar-title>
 
-    <v-spacer></v-spacer>
+    <v-spacer />
 
     <div class="d-none d-md-flex nav-links font-serif">
       <v-btn to="/about" variant="text">茶之起源</v-btn>
