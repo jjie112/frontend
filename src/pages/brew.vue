@@ -205,7 +205,7 @@
   }
 
   .color-zen-green {
-    color: #2d3e33;
+    color: rgb(var(--v-theme-darkgreen));
   }
 
   .brew-table {

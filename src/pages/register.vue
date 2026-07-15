@@ -172,7 +172,7 @@
   }
 
   .color-tea-green {
-    color: #2d3e33;
+    color: rgb(var(--v-theme-teagreen));
   }
 
   .custom-input :deep(.v-field__outline) {

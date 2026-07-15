@@ -173,11 +173,11 @@
   }
 
   .color-tea-green {
-    color: #2d3e33;
+    color: rgb(var(--v-theme-darkgreen));
   }
 
   .color-brown {
-    color: #8d6e63;
+    color: rgb(var(--v-theme-coffeebrown));
   }
 
   .last-no-border:last-child {

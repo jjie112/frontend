@@ -27,7 +27,7 @@
               「茶之為飲，發乎神農氏。」追溯數千年的歷史長河，探索第一片茶葉如何從野生的生命，轉化為溫潤靈魂的藥飲與藝術。
             </v-card-text>
             <v-card-actions class="px-0">
-              <v-btn append-icon="mdi-arrow-right" color="#C19A6B" variant="text">探尋傳說</v-btn>
+              <v-btn append-icon="mdi-arrow-right" color="ambergold" variant="text">探尋傳說</v-btn>
             </v-card-actions>
           </div>
         </v-card>
@@ -52,7 +52,7 @@
               透過發酵度的變化，一葉茶演繹出六種截然不同的生命色彩。
             </v-card-text>
             <v-card-actions class="px-0">
-              <v-btn append-icon="mdi-arrow-right" color="#C19A6B" variant="text">品味色標</v-btn>
+              <v-btn append-icon="mdi-arrow-right" color="ambergold" variant="text">品味色標</v-btn>
             </v-card-actions>
           </div>
         </v-card>
@@ -76,7 +76,7 @@
               揉捻、發酵、烘焙。每一道工序都是與時間的博弈，帶你走進茶園後方，看見那些決定茶湯靈魂的關鍵時刻。
             </v-card-text>
             <v-card-actions class="px-0">
-              <v-btn append-icon="mdi-arrow-right" color="#C19A6B" variant="text">探索工法</v-btn>
+              <v-btn append-icon="mdi-arrow-right" color="ambergold" variant="text">探索工法</v-btn>
             </v-card-actions>
           </div>
         </v-card>
@@ -92,22 +92,22 @@
 
   /* 品牌主色與琥珀色 */
   .color-primary {
-    color: #2d3e33;
+    color: rgb(var(--v-theme-darkgreen));
   }
   .color-gold {
-    color: #c19a6b;
+    color: rgb(var(--v-theme-ambergold));
   }
 
   /* 紙質感背景，呼應之前討論的背景色 */
   .bg-paper {
-    background-color: #f9f7f2 !important;
+    background-color: rgb(var(--v-theme-offwhite)) !important;
   }
 
   /* 金色裝飾線 */
   .divider-gold {
     width: 40px;
     height: 3px;
-    background-color: #c19a6b;
+    background-color: rgb(var(--v-theme-ambergold));
   }
 
   /* 卡片懸停與過渡 */
@@ -121,12 +121,12 @@
 
   .clickable-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 12px 30px rgba(45, 62, 51, 0.15) !important;
+    box-shadow: 0 12px 30px rgba(var(--v-theme-darkgreen), 0.15) !important;
   }
 
   /* 文字細節調整 */
   .v-card-title {
-    color: #2d3e33;
+    color: rgb(var(--v-theme-darkgreen));
   }
 
   /* 手機版排版修正：在手機上圖片高度縮減 */

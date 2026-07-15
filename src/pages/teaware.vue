@@ -13,7 +13,12 @@
 
       <v-col class="pa-10" cols="12" md="7">
         <div class="text-overline mb-2 text-brown font-weight-bold">TEAWARE APPRECIATION</div>
-        <h1 class="text-h3 font-weight-bold mb-6 font-serif" style="color: #2d3e33">茶器賞析</h1>
+        <h1
+          class="text-h3 font-weight-bold mb-6 font-serif"
+          style="color: rgb(var(--v-theme-darkgreen))"
+        >
+          茶器賞析
+        </h1>
         <h3 class="text-h5 text-brown-darken-1 mb-6 font-italic font-serif">
           「器為茶之父，水為茶之母」
         </h3>
@@ -142,7 +147,7 @@
   .tool-number {
     width: 28px;
     height: 28px;
-    background-color: #8d6e63;
+    background-color: rgb(var(--v-theme-coffeebrown));
     color: white;
     border-radius: 50%;
     display: flex;

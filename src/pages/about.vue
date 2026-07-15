@@ -182,7 +182,7 @@
   }
 
   .color-gold {
-    color: #c19a6b;
+    color: rgb(var(--v-theme-ambergold));
   }
 
   .letter-spacing-2 {
@@ -208,7 +208,7 @@
   }
 
   .tea-title {
-    color: #2d3e33;
+    color: rgb(var(--v-theme-darkgreen));
     text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.05);
     font-family: 'Noto Serif TC', serif;
   }

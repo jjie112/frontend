@@ -202,7 +202,7 @@
   }
 
   .color-tea-green {
-    color: #2d3e33;
+    color: rgb(var(--v-theme-darkgreen));
   }
 
   /* 統一卡片寬度：設定固定寬度 800px */
@@ -238,7 +238,7 @@
   }
 
   .tea-main-title {
-    color: #2d3e33;
+    color: rgb(var(--v-theme-darkgreen));
     letter-spacing: 6px;
     font-family: 'Noto Serif TC', serif;
   }
@@ -261,7 +261,7 @@
     width: 1px;
     height: 100px;
     margin: 0 auto;
-    background: linear-gradient(to bottom, #8d6e63, transparent);
+    background: linear-gradient(to bottom, rgb(var(--v-theme-coffeebrown)), transparent);
     animation: drip 2s infinite ease-in-out;
   }
 
@@ -283,11 +283,11 @@
   }
 
   .border-brown {
-    border-left: 4px solid #8d6e63 !important;
+    border-left: 4px solid rgb(var(--v-theme-coffeebrown)) !important;
   }
 
   .footer-gradient {
-    background: linear-gradient(135deg, #2d3e33 0%, #4e342e 100%) !important;
+    background: linear-gradient(135deg, rgb(var(--v-theme-darkgreen)) 0%, #4e342e 100%) !important;
   }
 
   .footer-watermark {

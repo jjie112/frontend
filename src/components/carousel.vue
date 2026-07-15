@@ -105,7 +105,7 @@
 
   /* 背景襯底與主圖樣式 */
   .bg-scrim-dark {
-    background-color: #2d3e33 !important; /* 確保與Scrim一致 */
+    background-color: rgb(var(--v-theme-darkgreen)) !important; /* 確保與Scrim一致 */
   }
 
   .carousel-item-wrapper {
@@ -140,19 +140,19 @@
 
   .slide-title {
     letter-spacing: 8px !important;
-    color: #fcfbf9; /* 米白色 */
+    color: rgb(var(--v-theme-offwhite));
     text-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
   }
 
   .divider {
     width: 80px; /* 稍微加長 */
     height: 2px;
-    background-color: #c19a6b; /* 琥珀金 */
+    background-color: rgb(var(--v-theme-ambergold));
     margin: 0 auto;
   }
 
   .slide-subtitle {
-    color: #fcfbf9;
+    color: rgb(var(--v-theme-offwhite));
     font-weight: 400;
     letter-spacing: 2px;
     text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
@@ -165,27 +165,27 @@
   /* 按鈕效果 */
   .action-btn {
     border-color: rgba(252, 251, 249, 0.6) !important;
-    color: #fcfbf9 !important;
+    color: rgb(var(--v-theme-offwhite)) !important;
     letter-spacing: 2px;
     transition: all 0.4s ease;
     background-color: rgba(255, 255, 255, 0.1);
   }
 
   .action-btn:hover {
-    background-color: #c19a6b !important; /* 懸停轉琥珀金 */
-    border-color: #c19a6b !important;
+    background-color: rgb(var(--v-theme-ambergold)) !important; /* 懸停轉琥珀金 */
+    border-color: rgb(var(--v-theme-ambergold)) !important;
     color: white !important;
     transform: scale(1.05);
   }
 
   /* 分頁點點與箭頭 */
   :deep(.v-btn--icon.v-btn--active) {
-    color: #c19a6b !important;
+    color: rgb(var(--v-theme-ambergold)) !important;
   }
 
   :deep(.v-window__left),
   :deep(.v-window__right) {
-    background: rgba(45, 62, 51, 0.3) !important;
+    background: rgba(var(--v-theme-darkgreen), 0.3) !important;
     border-radius: 50%;
     width: 50px;
     height: 50px;
@@ -195,7 +195,7 @@
   .slide-scrim {
     position: absolute;
     inset: 0;
-    background-color: rgba(45, 62, 51, 0.4); /* 對應原本 scrim #2D3E33 + opacity 0.4 */
+    background-color: rgba(var(--v-theme-darkgreen), 0.4);
     z-index: 3;
   }
 </style>

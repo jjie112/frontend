@@ -245,16 +245,16 @@
 
   .tea-title-vertical {
     line-height: 1.2;
-    color: #2d3e33;
+    color: rgb(var(--v-theme-darkgreen));
     letter-spacing: 8px;
   }
 
   .color-primary {
-    color: #2d3e33;
+    color: rgb(var(--v-theme-darkgreen));
   }
 
   .color-gold {
-    color: #c19a6b !important;
+    color: rgb(var(--v-theme-ambergold)) !important;
   }
 
   .tea-card {
@@ -279,7 +279,7 @@
   }
 
   .bg-gradient-overlay {
-    background: linear-gradient(to top, rgba(45, 62, 51, 0.9), transparent);
+    background: linear-gradient(to top, rgba(var(--v-theme-darkgreen), 0.9), transparent);
     width: 100%;
   }
 
@@ -292,7 +292,7 @@
   }
 
   .shadow-leaf {
-    box-shadow: 0 10px 30px rgba(45, 62, 51, 0.2) !important;
+    box-shadow: 0 10px 30px rgba(var(--v-theme-darkgreen), 0.2) !important;
   }
 
   .leading-loose {

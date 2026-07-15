@@ -87,7 +87,7 @@
 
       <v-btn icon @click="handleCartClick">
         <v-badge
-          color="#C19A6B"
+          color="ambergold"
           :content="cartStore.totalItems"
           :model-value="cartStore.totalItems > 0"
         >
@@ -105,7 +105,7 @@
     <router-view />
   </v-main>
 
-  <v-overlay v-model="mobileSearchActive" class="align-center justify-center" scrim="#2d3e33">
+  <v-overlay v-model="mobileSearchActive" class="align-center justify-center" scrim="darkgreen">
     <v-card class="pa-4 rounded-lg" width="90vw">
       <v-text-field
         v-model="searchQuery"
@@ -116,7 +116,7 @@
         @click:append-inner="onSearch"
         @keyup.enter="onSearch"
       ></v-text-field>
-      <v-btn block class="mt-4" color="#2d3e33" @click="mobileSearchActive = false">關閉</v-btn>
+      <v-btn block class="mt-4" color="darkgreen" @click="mobileSearchActive = false">關閉</v-btn>
     </v-card>
   </v-overlay>
 
@@ -185,65 +185,65 @@
 <style scoped>
   .font-serif {
     font-family: 'Noto Serif TC', serif !important;
-    color: #c19a6b !important;
+    color: rgb(var(--v-theme-ambergold)) !important;
   }
 
   /* --- 側邊欄樣式 --- */
   .bg-paper-dark {
-    background-color: #2d3e33 !important;
-    color: #f9f7f2 !important;
+    background-color: rgb(var(--v-theme-darkgreen)) !important;
+    color: rgb(var(--v-theme-offwhite)) !important;
   }
 
   /* 預設選單項目顏色 */
   .bg-paper-dark :deep(.v-list-item) {
     transition: color 0.3s ease;
-    color: #f9f7f2 !important;
+    color: rgb(var(--v-theme-offwhite)) !important;
   }
 
   /* 側邊欄滑過變色：排除掉 .nav-header */
   .bg-paper-dark :deep(.v-list-item:not(.nav-header):hover) {
-    color: #c19a6b !important;
+    color: rgb(var(--v-theme-ambergold)) !important;
   }
 
   /* 圖示滑過也變金色 */
   .bg-paper-dark :deep(.v-list-item:not(.nav-header):hover .v-icon) {
-    color: #c19a6b !important;
+    color: rgb(var(--v-theme-ambergold)) !important;
   }
 
   /* 標題固定顏色，不隨 hover 改變 */
   .color-gold {
-    color: #c19a6b !important;
+    color: rgb(var(--v-theme-ambergold)) !important;
   }
 
   /* 下拉群組標題滑過效果 */
   .bg-paper-dark :deep(.v-list-group__header:hover) {
-    color: #c19a6b !important;
+    color: rgb(var(--v-theme-ambergold)) !important;
   }
 
   /* --- 導覽列與其他樣式 --- */
   .custom-header {
-    background-color: #2d3e33 !important;
-    color: #f9f7f2 !important;
+    background-color: rgb(var(--v-theme-darkgreen)) !important;
+    color: rgb(var(--v-theme-offwhite)) !important;
   }
 
   .logo-text {
     cursor: pointer;
     letter-spacing: 2px;
-    color: #f9f7f2;
+    color: rgb(var(--v-theme-offwhite));
   }
 
   .nav-links :deep(.v-btn) {
     transition: color 0.3s;
-    color: #f9f7f2;
+    color: rgb(var(--v-theme-offwhite));
   }
 
   .nav-links :deep(.v-btn:hover) {
-    color: #c19a6b !important;
+    color: rgb(var(--v-theme-ambergold)) !important;
   }
 
   .bg-paper-light {
-    background-color: #f5f5dc !important;
-    color: #c19a6b !important;
+    background-color: rgb(var(--v-theme-offwhite)) !important;
+    color: rgb(var(--v-theme-ambergold)) !important;
   }
 
   .search-input-absolute {

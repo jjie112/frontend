@@ -143,7 +143,7 @@
   }
 
   .color-tea-green {
-    color: #2d3e33;
+    color: rgb(var(--v-theme-darkgreen));
   }
 
   /* 輸入框微調 */
@@ -157,7 +157,7 @@
 
   /* 卡片陰影 */
   .shadow-24 {
-    box-shadow: 0 10px 40px rgba(45, 62, 51, 0.1) !important;
+    box-shadow: 0 10px 40px rgba(var(--v-theme-darkgreen), 0.1) !important;
   }
 
   .rounded-xl {

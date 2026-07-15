@@ -44,18 +44,18 @@
 
 <style scoped>
   .custom-footer {
-    background-color: #2d3e33 !important;
-    color: #f9f7f2 !important;
+    background-color: rgb(var(--v-theme-darkgreen)) !important;
+    color: rgb(var(--v-theme-offwhite)) !important;
   }
 
   .footer-logo {
-    color: #c19a6b;
+    color: rgb(var(--v-theme-ambergold));
     cursor: pointer;
     letter-spacing: 2px;
   }
 
   .footer-title {
-    color: #f9f7f2;
+    color: rgb(var(--v-theme-offwhite));
     font-size: 1.1rem;
     border-bottom: 1px solid rgba(193, 154, 107, 0.3);
     padding-bottom: 5px;
@@ -80,12 +80,12 @@
   }
 
   .footer-list :deep(.v-list-item:hover .v-list-item-title) {
-    color: #c19a6b !important;
+    color: rgb(var(--v-theme-ambergold)) !important;
     transform: translateX(5px);
   }
 
   .contact-list :deep(.v-icon) {
-    color: #c19a6b !important;
+    color: rgb(var(--v-theme-ambergold)) !important;
   }
 
   .footer-divider {
