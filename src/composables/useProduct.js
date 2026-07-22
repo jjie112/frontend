@@ -71,7 +71,7 @@ export function useProductList() {
     loading.value = true // 開始載入
     error.value = null // 重置錯誤狀態
     try {
-      const response = await productApi.getAllPoudcts()
+      const response = await productApi.getAllProducts()
       if (response.data?.success) {
         products.value = response.data.data || []
         // console.log('商品資料:', products.value) // 方便除錯查看實際商品資料
@@ -148,7 +148,7 @@ export function useProductDetail() {
     loading.value = true
     error.value = null
     try {
-      const response = await productApi.getPoudctId(route.params.id)
+      const response = await productApi.getProductById(route.params.id)
       if (response.data?.success) {
         product.value = response.data.data
       }

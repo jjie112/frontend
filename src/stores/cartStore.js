@@ -40,7 +40,7 @@ export const useCartStore = defineStore(
       }
     }
 
-    // 更新購物車數量（新增、增加、減少）
+    // 更新購物車數量(呼叫後端 API 更新購物車中指定商品的數量)
     const updateCart = async (p_id, delta) => {
       const userStore = useUserStore()
 
@@ -56,6 +56,7 @@ export const useCartStore = defineStore(
         throw Object.assign(new Error('數量必須為正整數'), { code: 'INVALID_QUANTITY' })
       }
 
+      // 呼叫後端 API 更新購物車
       try {
         const { data } = await api.post('/users/cart', {
           p_id,
@@ -79,7 +80,7 @@ export const useCartStore = defineStore(
       try {
         const { data } = await api.delete(`/users/cart/${p_id}`)
         if (data.success) {
-          await fetchCart()
+          await fetchCart() // 重新拉取最新資料
           return true
         }
         throw new Error(data.message || '刪除失敗')
