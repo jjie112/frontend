@@ -27,6 +27,7 @@
           prepend-inner-icon="mdi-magnify"
           rounded="lg"
           variant="outlined"
+          @click:clear="clearSearch"
         ></v-text-field>
       </v-col>
       <v-col cols="12" md="7">
@@ -185,9 +186,10 @@
     window.scrollTo({ top: 0, behavior: 'auto' }) // 或直接 window.scrollTo(0, 0)
   }
 
-  // 分類 tab 點擊時清空搜尋（template 的 @click="clearSearch" 改成這裡）
+  // 分類 tab 點擊時清空搜尋
   const clearSearch = () => {
     searchQuery.value = ''
+    currentPage.value = 1 // 確保回到第一頁
   }
 
   onMounted(fetchProducts)

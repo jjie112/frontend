@@ -1,12 +1,14 @@
 import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { productApi } from '@/api/productApi'
+import { useCategory } from './useCategory'
 
 const ITEMS_PER_PAGE = 9
 
 // 商品列表
 export function useProductList() {
   const route = useRoute()
+  const { getCategoryColor } = useCategory()
 
   const products = ref([])
   const selectedCategory = ref('全部')
@@ -16,15 +18,6 @@ export function useProductList() {
   const error = ref(null)
 
   const categories = ['全部', '綠茶', '白茶', '黃茶', '青茶(烏龍茶)', '紅茶', '黑茶(普洱茶)']
-
-  const colorMap = {
-    綠茶: 'green-darken-3',
-    白茶: 'blue-grey-darken-1',
-    黃茶: 'orange-darken-1',
-    '青茶(烏龍茶)': 'teal-darken-2',
-    紅茶: 'red-darken-4',
-    '黑茶(普洱茶)': 'brown-darken-4',
-  }
 
   // 監聽路由搜尋參數（首頁搜尋跳轉過來）
   watch(
@@ -85,6 +78,7 @@ export function useProductList() {
     }
   }
 
+  // 取得商品圖片 URL
   const getImageUrl = (image) => {
     if (!image) {
       return 'https://via.placeholder.com/300'
@@ -94,8 +88,6 @@ export function useProductList() {
     }
     return `${import.meta.env.VITE_API_URL}/${image}`
   }
-
-  const getCategoryColor = (category) => colorMap[category] || 'brown-darken-3'
 
   // 初始載入商品列表
   return {
@@ -116,19 +108,11 @@ export function useProductList() {
 // 單一商品詳情
 export function useProductDetail() {
   const route = useRoute()
+  const { getCategoryColor } = useCategory()
 
   const product = ref(null)
   const loading = ref(false)
   const error = ref(null)
-
-  const colorMap = {
-    綠茶: 'green-darken-3',
-    白茶: 'blue-grey-darken-1',
-    黃茶: 'orange-darken-1',
-    '青茶(烏龍茶)': 'teal-darken-2',
-    紅茶: 'red-darken-4',
-    '黑茶(普洱茶)': 'brown-darken-4',
-  }
 
   const stockStatus = computed(() => {
     if (!product.value) {
@@ -169,8 +153,6 @@ export function useProductDetail() {
     }
     return `${import.meta.env.VITE_API_URL}/${image}`
   }
-
-  const getCategoryColor = (category) => colorMap[category] || 'brown-darken-3'
 
   return {
     product,
