@@ -8,6 +8,7 @@ const ITEMS_PER_PAGE = 9
 // 商品列表
 export function useProductList() {
   const route = useRoute()
+  const router = useRouter()
   const { getCategoryColor } = useCategory()
 
   const products = ref([])
@@ -18,6 +19,16 @@ export function useProductList() {
   const error = ref(null)
 
   const categories = ['全部', '綠茶', '白茶', '黃茶', '青茶(烏龍茶)', '紅茶', '黑茶(普洱茶)']
+
+  // === 新增：從 URL 恢復頁碼 ===
+  watch(
+    () => route.query.page,
+    (newVal) => {
+      const page = Number.parseInt(newVal)
+      currentPage.value = !isNaN(page) && page > 0 ? page : 1
+    },
+    { immediate: true },
+  )
 
   // 監聽路由搜尋參數（首頁搜尋跳轉過來）
   watch(
@@ -39,6 +50,21 @@ export function useProductList() {
   watch([searchQuery, selectedCategory], () => {
     currentPage.value = 1
   })
+
+  // 頁碼改變時更新 URL（但不觸發額外導航，使用 replace 避免歷史記錄過多）
+  watch(
+    currentPage,
+    (newPage) => {
+      const query = { ...route.query }
+      if (newPage > 1) {
+        query.page = newPage
+      } else {
+        delete query.page
+      }
+      router.replace({ query }) // 使用 replace 而不是 push，避免瀏覽器歷史堆太多
+    },
+    { immediate: false },
+  )
 
   // 計算過濾後的商品列表
   const filteredProducts = computed(() =>
@@ -89,6 +115,18 @@ export function useProductList() {
     return `${import.meta.env.VITE_API_URL}/${image}`
   }
 
+  // 清空搜尋關鍵字
+  const clearSearch = () => {
+    searchQuery.value = ''
+    currentPage.value = 1 // 確保回到第一頁
+  }
+
+  // 滾動到頁面頂部(分頁切換時)
+  const onPageChange = () => {
+    document.activeElement?.blur()
+    window.scrollTo({ top: 0, behavior: 'auto' }) // 或直接 window.scrollTo(0, 0)
+  }
+
   // 初始載入商品列表
   return {
     selectedCategory, // 外部使用選擇的分類
@@ -102,6 +140,8 @@ export function useProductList() {
     fetchProducts, // 外部觸發載入
     getImageUrl, // 外部使用圖片 URL 轉換
     getCategoryColor, // 外部使用分類顏色轉換
+    clearSearch,
+    onPageChange,
   }
 }
 

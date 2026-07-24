@@ -11,8 +11,25 @@ const router = createRouter({
   //* 因為使用 vuetify 所以這裡的 createWebHistory 要改成 createWebHashHistory
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: setupLayouts(routes),
+  // scrollBehavior(to, from, savedPosition) {
+  //   return savedPosition || { top: 0 } // 預設就是瞬間跳頂,不是 smooth
+  // },
+  // scrollBehavior(to, from, savedPosition) {
+  //   console.log('[scroll]', { to: to.fullPath, from: from.fullPath, savedPosition })
+  //   return savedPosition || { top: 0 }
+  // },
+
+  // 這裡的 scrollBehavior 是用來控制路由切換時的捲動行為
   scrollBehavior(to, from, savedPosition) {
-    return savedPosition || { top: 0 } // 預設就是瞬間跳頂,不是 smooth
+    if (savedPosition) {
+      return new Promise((resolve) => {
+        // 等待畫面渲染完成後再捲動
+        setTimeout(() => {
+          resolve(savedPosition)
+        }, 300) // 依實際 API 回應速度調整，可以先抓寬一點測試
+      })
+    }
+    return { top: 0 }
   },
 })
 

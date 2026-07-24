@@ -165,6 +165,8 @@
     fetchProducts,
     getImageUrl,
     getCategoryColor,
+    clearSearch,
+    onPageChange,
   } = useProductList()
 
   const addToCart = async (product) => {
@@ -181,16 +183,16 @@
   }
 
   // 分頁切換時，將頁面瞬間到頂部
-  const onPageChange = () => {
-    document.activeElement?.blur()
-    window.scrollTo({ top: 0, behavior: 'auto' }) // 或直接 window.scrollTo(0, 0)
-  }
+  // const onPageChange = () => {
+  //   document.activeElement?.blur()
+  //   window.scrollTo({ top: 0, behavior: 'auto' }) // 或直接 window.scrollTo(0, 0)
+  // }
 
   // 分類 tab 點擊時清空搜尋
-  const clearSearch = () => {
-    searchQuery.value = ''
-    currentPage.value = 1 // 確保回到第一頁
-  }
+  // const clearSearch = () => {
+  //   searchQuery.value = ''
+  //   currentPage.value = 1 // 確保回到第一頁
+  // }
 
   onMounted(fetchProducts)
 </script>
