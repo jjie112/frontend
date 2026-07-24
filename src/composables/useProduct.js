@@ -1,5 +1,5 @@
 import { computed, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { productApi } from '@/api/productApi'
 import { useCategory } from './useCategory'
 
@@ -20,7 +20,7 @@ export function useProductList() {
 
   const categories = ['全部', '綠茶', '白茶', '黃茶', '青茶(烏龍茶)', '紅茶', '黑茶(普洱茶)']
 
-  // === 新增：從 URL 恢復頁碼 ===
+  // 從 URL 恢復頁碼
   watch(
     () => route.query.page,
     (newVal) => {
@@ -57,24 +57,31 @@ export function useProductList() {
     (newPage) => {
       const query = { ...route.query }
       if (newPage > 1) {
-        query.page = newPage
-      } else {
+        if (query.page !== newPage.toString()) {
+          query.page = newPage
+          router.replace({ query })
+        }
+      } else if ('page' in query) {
         delete query.page
+        router.replace({ query }) // 使用 replace 而不是 push，避免瀏覽器歷史堆太多
       }
-      router.replace({ query }) // 使用 replace 而不是 push，避免瀏覽器歷史堆太多
     },
     { immediate: false },
   )
 
   // 計算過濾後的商品列表
-  const filteredProducts = computed(() =>
-    products.value.filter((p) => {
+  const filteredProducts = computed(() => {
+    const query = searchQuery.value.trim().toLowerCase()
+
+    return products.value.filter((p) => {
       const matchCategory =
         selectedCategory.value === '全部' || p.category === selectedCategory.value
-      const matchSearch = p.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+
+      const matchSearch = !query || p.name.toLowerCase().includes(query)
+
       return matchCategory && matchSearch
-    }),
-  )
+    })
+  })
 
   // 計算當前頁面要顯示的商品
   const displayProducts = computed(() => {
@@ -95,6 +102,8 @@ export function useProductList() {
         products.value = response.data.data || []
         // console.log('商品資料:', products.value) // 方便除錯查看實際商品資料
         // console.log('完整 response:', response.data) // 方便除錯查看後端回傳的結構
+      } else {
+        error.value = response.data?.message || '取得商品列表失敗'
       }
     } catch (error) {
       error.value = '取得商品列表失敗'
@@ -124,7 +133,7 @@ export function useProductList() {
   // 滾動到頁面頂部(分頁切換時)
   const onPageChange = () => {
     document.activeElement?.blur()
-    window.scrollTo({ top: 0, behavior: 'auto' }) // 或直接 window.scrollTo(0, 0)
+    window.scrollTo({ top: 0, behavior: 'auto' })
   }
 
   // 初始載入商品列表
@@ -171,10 +180,13 @@ export function useProductDetail() {
   const fetchProduct = async () => {
     loading.value = true
     error.value = null
+
     try {
       const response = await productApi.getProductById(route.params.id)
       if (response.data?.success) {
         product.value = response.data.data
+      } else {
+        error.value = response.data?.message || '載入失敗'
       }
     } catch (error_) {
       error.value = '載入失敗'
@@ -183,6 +195,9 @@ export function useProductDetail() {
       loading.value = false
     }
   }
+
+  // 監聽路由 id 變化（支援在同頁切換不同商品）
+  watch(() => route.params.id, fetchProduct, { immediate: true })
 
   const getImageUrl = (image) => {
     if (!image) {

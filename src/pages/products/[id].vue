@@ -140,8 +140,6 @@
 </template>
 
 <script setup>
-  // 當 product 載入後，若無庫存將數量設為 0
-  // 原本寫在 fetchProduct 裡，現在改用 watch 監聽
   import { computed, inject, onMounted, ref, watch } from 'vue'
   import { useDisplay } from 'vuetify'
   import { useProductDetail } from '@/composables/useProduct'
